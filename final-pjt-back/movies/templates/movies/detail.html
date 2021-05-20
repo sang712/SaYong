@@ -7,6 +7,19 @@
     <span>{{ genre.name }}</span>
     {% endfor %}
   </p>
+  <form action="{% url 'movies:favorite' movie.pk %}" method="POST">
+    {% csrf_token %}
+    {% if request.user in movie.favorite_users.all %}
+      <button class="btn-secondary btn-sm" role="button">Undibs</button>
+    {% else %}
+      <button class="btn-primary btn-sm" role="button">Dibs</button>
+    {% endif %}
+  </form>
+  <form action="{% url 'community:rating' movie.pk %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" >
+  </form>
   <p>popularity : {{ movie.popularity }}</p>
   <p>vote average : {{ movie.vote_average }}</p>
   <p>overview : {{ movie.overview }}</p>
