@@ -27,6 +27,16 @@
 {% endfor %}
 
 <hr>
+{% for log in logHistory %}
+{% if log.is_public %}
+  <span>{{ log.user }}님이 {{ log.object_type }}을 {{log.action_type}}습니다.</span>
+{% endif %}
+  <p>{{ log }}</p>
+  <p>{{ log.user }}</p>
+  <p>{{ log.object_type }}</p>
+  <p>{{ log.is_public }}</p>
+{% endfor %}
+<hr>
 
 <a href="{% url 'community:index' %}">[back]</a>
 {% endblock  %}
