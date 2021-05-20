@@ -19,6 +19,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
+            logHistory(user, 110)
             return redirect('community:index')
     else:
         form = CustomUserCreationForm()
@@ -59,7 +60,6 @@ def profile(request, username):
     context = {
         'person': person,
         'logHistory': logHistory,
-        
     }
     return render(request, 'accounts/profile.html', context)
 
@@ -84,9 +84,9 @@ def logHistory(user, action_type, **kwargs):
     '''
     object - action_type
     계정 -팔로우: 10 /언팔로우: 11 /회원가입: 110
-    영화 -찜하기: 20 /찜 해제: 21
+    영화 -찜하기: 20 /찜 해제: 21 /영화추가: 210 /영화삭제: 211 /영화수정:212
     별점 -남겼: 30 /취소: 31
-    리뷰 -남겼: 30 /취소: 31 /좋아요: 50 /좋아요 취소: 51
+    리뷰 -남겼: 30 /취소: 31 /수정: 32 /좋아요: 50 /좋아요 취소: 51
     댓글 -남겼: 30 /취소: 31
     '''
     form = HistoryForm()
