@@ -72,27 +72,40 @@ def follow(request, user_pk):
         if person != user:
             if person.followers.filter(pk=user.pk).exists():
                 person.followers.remove(user)
-                logHistory(user, 1, person.pk, 11)
+                logHistory(user, 11, following=person)
+                # preLog = History.objects.get(user=user, following=person)
+                # preLog.is_public = False
             else:
                 person.followers.add(user)
-                logHistory(user, 1, person.pk, 10)
+                logHistory(user, 10, following=person)
     return redirect('accounts:profile', person.username)
 
-def logHistory(user, object_type, object_pk, action_type):
+def logHistory(user, action_type, **kwargs):
     '''
-    object type - action_type
-    1: 계정 -팔로우: 10 /언팔로우: 11
-    2: 영화 -찜하기: 20 /찜 해제: 21
-    3: 별점 -남겼: 30 /취소: 31
-    4: 리뷰 -남겼: 30 /취소: 31 /좋아요: 50 /좋아요 취소: 51
-    5: 댓글 -남겼: 30 /취소: 31
+    object - action_type
+    계정 -팔로우: 10 /언팔로우: 11 /회원가입: 110
+    영화 -찜하기: 20 /찜 해제: 21
+    별점 -남겼: 30 /취소: 31
+    리뷰 -남겼: 30 /취소: 31 /좋아요: 50 /좋아요 취소: 51
+    댓글 -남겼: 30 /취소: 31
     '''
     form = HistoryForm()
     history = form.save(commit=False)
     
+    for key, value in kwargs.items():
+        if key == 'following':
+            history.following = value
+        elif key == 'movie':
+            history.movie = value
+        elif key == 'rating':
+            history.rating = value
+        elif key == 'review':
+            history.review = value
+        elif key == 'comment':
+            history.comment = value
+    
     history.user = user
-    history.object_type = object_type
-    history.object_pk = object_pk
+    
     history.action_type = action_type
     
     if action_type%10:
