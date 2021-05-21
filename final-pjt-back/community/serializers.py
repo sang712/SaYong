@@ -6,18 +6,21 @@ class ReviewSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Review
-        fields = ['title', 'movie', 'content']
+        fields = '__all__'  # title, content, movie, user, like_users
+        # fields = ['title', 'content']
 
 
 class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        exclude = ['review', 'user']
+        fields = '__all__'  # content, review, user
+        # exclude = ['review', 'user']
 
 
 class RatingSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Rating
-        fields = ['rank']
+        fields = '__all__'  # rank, movie, user
+        # fields = ['rank']
