@@ -1,83 +1,70 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
+from rest_framework.serializers import Serializer
 from .models import Review, Comment
 from .forms import ReviewForm, CommentForm, RatingForm
 from accounts.views import logHistory
 from movies.models import Movie
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import *
 
-@require_GET
+@api_view(['GET'])
 def index(request):
     reviews = Review.objects.order_by('-pk')
-    context = {
-        'reviews': reviews,
-    }
-    return render(request, 'community/index.html', context)
+    serializer = ReviewSerializer(reviews, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@require_http_methods(['GET', 'POST'])
+@api_view(['POST'])
 def create(request):
     if request.method == 'POST':
-        form = ReviewForm(request.POST) 
-        if form.is_valid():
-            review = form.save(commit=False)
-            review.user = request.user
-            review.save()
-            logHistory(review.user, 30, review=review)
-            return redirect('community:detail', review.pk)
-    else:
-        form = ReviewForm()
-    context = {
-        'form': form,
-    }
-    return render(request, 'community/create.html', context)
+        serializer = ReviewSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            review = serializer.save()
+            logHistory(request.user, 30, review=review)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@require_GET
+# @require_GET
+@api_view(['GET'])
 def detail(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
-    comments = review.comment_set.all()
-    comment_form = CommentForm()
-    context = {
-        'review': review,
-        'comment_form': comment_form,
-        'comments': comments,
-    }
-    return render(request, 'community/detail.html', context)
+    # 댓글들을 어떻게 리뷰를 호출할 때 같이 가져올 것인가. 어디선가 배웠는데?
+    # comments = review.comment_set.all()
+    # comment_form = CommentForm()
+    serializer = ReviewSerializer(review)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@require_POST
+@api_view(['POST'])
 def create_comment(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
-    comment_form = CommentForm(request.POST)
-    if comment_form.is_valid():
-        comment = comment_form.save(commit=False)
-        comment.review = review
-        comment.user = request.user
-        comment.save()
-        logHistory(comment.user, 30, comment=comment)
-        return redirect('community:detail', review.pk)
-    context = {
-        'comment_form': comment_form,
-        'review': review,
-        'comments': review.comment_set.all(),
-    }
-    return render(request, 'community/detail.html', context)
+    serializer = CommentSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(review=review, user=request.user)
+        logHistory(request.user, 30, comment=comment)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@require_POST
+# if request.user.is_authenticated:
+#     return redirect('accounts:login')
+@api_view(['GET','POST'])
 def like(request, review_pk):
-    if request.user.is_authenticated:
-        review = get_object_or_404(Review, pk=review_pk)
+    review = get_object_or_404(Review, pk=review_pk)
+    if request.method == 'GET':
+        pass
+    elif request.method == 'POST':
         user = request.user
-
         if review.like_users.filter(pk=user.pk).exists():
             review.like_users.remove(user)
             logHistory(request.user, 51, review=review)
         else:
             review.like_users.add(user)
             logHistory(request.user, 50, review=review)
-        return redirect('community:index')
-    return redirect('accounts:login')
+        # return redirect('community:index')
+        # Response가 따로 필요 없다? like에 대한 반응은 vue.js에서 처리
 
 
 @require_POST
