@@ -8,6 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = get_user_model()
+        # fields = '__all__'
         fields = ('username', 'password')
         # 필드에 추가하길 고려할만한 것: 이메일 주소, 지역, 계정과 이름의 구분 등
 
