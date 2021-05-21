@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_list_or_404, render, redirect, get_object_or_404
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import get_user_model
@@ -51,7 +51,7 @@ def login(request):
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-            return redirect(request.GET.get('next') or 'community:index')
+            return redirect(request.GET.get('next') or 'community:review_index')
     else:
         form = AuthenticationForm()
     context = {
@@ -73,29 +73,37 @@ def logout(request):
 @api_view(['GET', 'PUT', 'DELETE'])
 def profile(request, username):
     person = get_object_or_404(get_user_model(), username=username)
-    logHistory = History.objects.all()
-    context = {
-        'person': person,
-        'logHistory': logHistory,
-    }
-    return render(request, 'accounts/profile.html', context)
+    # logHistory = History.objects.all()
+    # context = {
+    #     'person': person,
+    #     'logHistory': logHistory,
+    # }
+    serializer = UserSerializer(person)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+# if request.user.is_authenticated:
 @require_POST
 def follow(request, user_pk):
-    if request.user.is_authenticated:
-        person = get_object_or_404(get_user_model(), pk=user_pk)
-        user = request.user
-        if person != user:
-            if person.followers.filter(pk=user.pk).exists():
-                person.followers.remove(user)
-                logHistory(user, 11, following=person)
-                # preLog = History.objects.get(user=user, following=person)
-                # preLog.is_public = False
-            else:
-                person.followers.add(user)
-                logHistory(user, 10, following=person)
-    return redirect('accounts:profile', person.username)
+    person = get_object_or_404(get_user_model(), pk=user_pk)
+    user = request.user
+    if person != user:
+        if person.followers.filter(pk=user.pk).exists():
+            person.followers.remove(user)
+            logHistory(user, 11, following=person)
+        else:
+            person.followers.add(user)
+            logHistory(user, 10, following=person)
+        return Response(status=status.HTTP_200_OK)
+    # return redirect('accounts:profile', person.username)
+
+@api_view(['GET'])
+def history(request):
+    histories = get_list_or_404(History)
+    serializer = HistorySerializer(histories)
+    
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 def logHistory(user, action_type, **kwargs):
     '''

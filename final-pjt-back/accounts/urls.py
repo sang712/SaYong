@@ -11,4 +11,5 @@ urlpatterns = [
     path('follow/<int:user_pk>/', views.follow, name='follow'),
     
     path('index/', views.index, name='index'),
+    path('history/', views.history, name='history'),
 ]

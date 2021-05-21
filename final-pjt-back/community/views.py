@@ -14,12 +14,12 @@ from .serializers import *
 def review_index(request):
     reviews = Review.objects.order_by('-pk')
     serializer = ReviewSerializer(reviews, many=True)
-    # 잠시 확인을 위해 추가하였음
-    context = {
-        'reviews': reviews,
-    }
-    return render(request, 'community/index.html', context)
-    # 여기까지
+    # # 잠시 확인을 위해 추가하였음
+    # context = {
+    #     'reviews': reviews,
+    # }
+    # return render(request, 'community/index.html', context)
+    # # 여기까지
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
