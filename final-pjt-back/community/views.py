@@ -14,6 +14,12 @@ from .serializers import *
 def index(request):
     reviews = Review.objects.order_by('-pk')
     serializer = ReviewSerializer(reviews, many=True)
+    # 잠시 확인을 위해 추가하였음
+    context = {
+        'reviews': reviews,
+    }
+    return render(request, 'community/index.html', context)
+    # 여기까지
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -73,7 +79,7 @@ def rating(request, movie_pk):
         form = RatingForm(request.POST) 
         if form.is_valid():
             rating = form.save(commit=False)
-            rating.user = request.users
+            rating.user = request.user
             rating.movie_id = movie_pk
             rating.save()
             logHistory(rating.user, 30, rating=rating)
