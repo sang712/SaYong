@@ -76,7 +76,12 @@ def logout(request):
 # history가 프로필이 아니라 다른 페이지에서 보이도록 수정해야함
 @api_view(['GET', 'PUT', 'DELETE'])
 def profile(request, username):
-    person = get_object_or_404(get_user_model(), username=username)
+    # <int:username> 혹은 <str:username>, 즉 id나 계정명으로 접근할 수 있도록 하였다.
+    if type(username) == type(str()):
+        person = get_object_or_404(get_user_model(), username=username)
+    elif type(username) == type(int()):
+        person = get_object_or_404(get_user_model(), pk=username)
+
     if request.method == 'GET':
         serializer = UserSerializer(person)
         return Response(serializer.data, status=status.HTTP_200_OK)
