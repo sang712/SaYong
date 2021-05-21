@@ -1,48 +1,52 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from .models import Movie
 from accounts.views import logHistory
-from community.forms import RatingForm
-
+# from community.forms import RatingForm
+from rest_framework import serializers, status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import *
 
 # Create your views here.
-@require_GET
+@api_view(['GET'])
 def index(request):
-    movies = Movie.objects.all()
-    context = {
-        'movies': movies,
-    }
-    return render(request, 'movies/index.html', context)
+    movies = get_list_or_404(Movie)
+    serializer = MovieSerializer(movies, many=True)
+    return Response(serializer.data)
 
 
-@require_GET
+@api_view(['GET'])
 def detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
-    form = RatingForm()
-    context = {
-        'movie': movie,
-        'form': form,
-    }
-    return render(request, 'movies/detail.html', context)
+    serializer = MovieSerializer(movie)
+    return Response(serializer.data)
 
-
-@require_GET
+@api_view(['GET'])
 def recommended(request):
-    pass
+    recommended_movie = get_list_or_404(Movie)
+    serializer = MovieSerializer(recommended_movie)
+    return Response(serializer.data)
 
-@require_POST
+# def favorite_index(request):
+#     pass
+    # M:N관계에서는 어떤 serializer를 사용해야하는가?
+    # accounts의 followers 를 참조하자
+    # favorite_relations = get_list_or_404()
+
+
+# if request.user.is_authenticated:
+@api_view(['POST'])
 def favorite(request, movie_pk):
-    if request.user.is_authenticated:
-        movie = get_object_or_404(Movie, pk=movie_pk)
-        user = request.user
-
-        if movie.favorite_users.filter(pk=user.pk).exists():
-            movie.favorite_users.remove(user)
-            logHistory(user, 21, movie=movie)
-            # preLog = History.objects.get(user=user, following=person)
-            # preLog.is_public = False
-        else:
-            movie.favorite_users.add(user)
-            logHistory(user, 20, movie=movie)
-        return redirect('movies:detail', movie.pk)
-    return redirect('accounts:login')
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    user = request.user
+    if movie.favorite_users.filter(pk=user.pk).exists():
+        movie.favorite_users.remove(user)
+        logHistory(user, 21, movie=movie)
+        # preLog = History.objects.get(user=user, following=person)
+        # preLog.is_public = False
+    else:
+        movie.favorite_users.add(user)
+        logHistory(user, 20, movie=movie)
+    # return Response()
+    # return redirect('movies:detail', movie.pk)

@@ -12,7 +12,8 @@ urlpatterns = [
     path('history/', views.history, name='history'),
     # JWT 토큰
 
-    # 반드시 맨 하단에 있어야함
     path('<int:user_pk>/history/', views.user_history, name='user_history'),
+    path('<int:username>/', views.profile, name='profile'),
+    # 반드시 맨 하단에 있어야함
     path('<str:username>/', views.profile, name='profile'),
 ]

@@ -19,3 +19,6 @@ class History(models.Model):
     action_type = models.IntegerField()
     is_public = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.id} - {self.user}님이 {str()}을 {str()}습니다'
