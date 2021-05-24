@@ -31,9 +31,16 @@
                   <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
               </li>
-              <li class="nav-item p-2">
+              <li v-if="this.$store.state.isLogin" class="nav-item p-2">
                 <router-link :to="{ name: 'Account' }">내 프로필</router-link>
               </li>
+              <li v-else class="nav-item p-2">
+                <router-link :to="{ name: 'Signup' }">회원가입</router-link>
+              </li>
+              <li v-if="!this.$store.state.isLogin" class="nav-item p-2">
+                <router-link :to="{ name: 'Login' }">로그인</router-link>
+              </li>
+
             </ul>
             <form class="d-flex">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -64,6 +71,7 @@ export default {
     this.$store.dispatch('getMovieList')
     this.$store.dispatch('getUserList')
     this.$store.dispatch('getGenreList')
+    this.$store.dispatch('isLogin') // 로그인 상태확인
   },
 }
 </script>
