@@ -10,6 +10,7 @@ export default new Vuex.Store({
     users: [],
     genres: [],
     user: [],
+    isLogin: false,
   },
   mutations: {
     GET_MOVIE_LIST(state, movieList) {
@@ -24,6 +25,15 @@ export default new Vuex.Store({
         genres[genre.id] = genre.name
       })
       state.genres = genres
+    },
+    IS_LOGIN(state) {
+      const token = localStorage.getItem('jwt')
+      if (token) {
+        state.isLogin = true
+      }
+    },
+    LOGIN(state) {
+      state.isLogin = true
     }
   },
   actions: {
@@ -56,7 +66,13 @@ export default new Vuex.Store({
       .catch(err => {
         console.log(err)
       })
-    }
+    },
+    isLogin({commit}) {
+      commit("IS_LOGIN")
+    },
+    login({commit}) {
+      commit("LOGIN")
+    },
   },
   modules: {
 

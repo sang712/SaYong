@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from rest_framework_jwt.views import obtain_jwt_token
 
 app_name = 'accounts'
 
@@ -11,7 +12,7 @@ urlpatterns = [
     # path('logout/', views.logout, name='logout'),
     path('history/', views.history, name='history'),
     # JWT 토큰
-
+    path('api-token-auth/', obtain_jwt_token),
     path('<int:user_pk>/history/', views.user_history, name='user_history'),
     path('<int:username>/', views.profile, name='profile'),
     # 반드시 맨 하단에 있어야함
