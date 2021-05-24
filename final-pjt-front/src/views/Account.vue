@@ -1,13 +1,30 @@
 <template>
-  <h1 class="container">
-    asdfasdf
-  </h1>
+  <div class="container bg-primary">
+    {{ users }}
+    <AccountCard v-for="(user, idx) in users" :user="user" :key="idx"/>
+  </div>
 </template>
 
 <script>
+import AccountCard from '@/components/AccountCard.vue'
+import { mapState } from 'vuex'
+
 export default {
   name: 'Account',
-  
+  components: {
+    AccountCard,
+  },
+  data: function () {return {
+    // users: [],
+  }},
+  // props: {
+  //   users: [],
+  // },
+  computed: {
+    ...mapState([
+      'users'
+    ])
+  },
 }
 </script>
 

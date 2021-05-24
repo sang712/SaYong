@@ -1,43 +1,75 @@
 <template>
   <div>
-    <div>
-      <span>{{ review.title }}</span>
-      | <span>{{ review.user }}</span>
-      | <span class="text-end">{{ review.created_at| date }}</span>
-      | <span>{{ review.movie| getMovie }}</span>
+    <div class="card m-3">
+      <div class="card-header">
+        <span>{{ review.id }}</span> - 
+        <span>{{ review.title }}</span>
+        <button>리뷰 수정 삭제</button>
+      </div>
+      <div class="card-body">
+        <blockquote class="blockquote mb-0">
+          <p>{{ review.content }}</p>
+          <footer class="blockquote-footer">
+            <span>{{ user.username }}</span> on 
+            <cite title="movietitle">{{ movie.title }}</cite>
+            <div>좋아요: {{ review.like_users }}</div>
+            <span class="">작성: {{ review.created_at| date }}</span> | 
+            <span class="">수정: {{ review.updated_at| date }}</span>
+          </footer>
+        </blockquote>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-// import axios from 'axios'
-import { mapState } from 'vuex'
+import axios from 'axios'
+
 
 export default {
   name: 'Review',
+  data: function () {
+    return {
+      movie: {},
+      user: {},
+    }
+  },
   props: {
-    review: Object,
-    user: Object,
-    movie: Object,
+    review: {},
+  },
+  created: function () {
+    axios({
+      method: 'GET',
+      url: `http://127.0.0.1:8000/movies/${this.review.movie}/`,
+    })
+      .then(res => {
+        this.movie = res.data
+      })
+      .catch(err => {console.log(err)})
+    axios({
+      method: 'GET',
+      url: `http://127.0.0.1:8000/accounts/${this.review.user}/`,
+    })
+      .then(res => {
+        this.user = res.data
+      })
+      .catch(err => {console.log(err)})
   },
   filters: {
     date: function(value) {
-      console.log(value)
-      console.log(typeof value)
+      // console.log(value)
+      // console.log(typeof value)
       return value.substring(0,10) + " " + value.substring(11,13) + "시 " + value.substring(14,16) + "분"
     },
-    getUser: function(value) { // user.pk로 사람의 정보를 가져오는 함수
-      console.log(value)
-    },
-    getMovie: function(value) {
-      return this.movie[value]
-    },
+    // getUser: function(value) { // user.pk로 사람의 정보를 가져오는 함수
+    //   console.log(value)
+    // },
+    // getMovie: function (value) {
+    //   // console.log(value)
+    //   return this.movie
+    // },
   },
-  computed: {
-    ...mapState([
-      'movies',
-    ])
-  }
+
 }
 </script>
 

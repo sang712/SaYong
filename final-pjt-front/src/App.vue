@@ -62,6 +62,7 @@ export default {
   created() {
     // vue가 created 되면 vuex에서 영화 데이터를 가져오는 함수를 실행함
     this.$store.dispatch('getMovieList')
+    this.$store.dispatch('getUserList')
   },
 }
 </script>
