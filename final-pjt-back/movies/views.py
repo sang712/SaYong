@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
-from .models import Movie
+from .models import Movie, Genre
 from accounts.views import logHistory
 # from community.forms import RatingForm
 from rest_framework import serializers, status
@@ -15,6 +15,11 @@ def index(request):
     serializer = MovieSerializer(movies, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def genre(request):
+    genres = get_list_or_404(Genre)
+    serializer = GenreSerializer(genres, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def detail(request, movie_pk):
