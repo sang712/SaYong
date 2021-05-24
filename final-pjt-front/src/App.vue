@@ -43,6 +43,7 @@
         </div>
       </nav>
     </div>
+    <!-- 홈으로 이어짐 -->
     <router-view/>
     <div id="footer" class="bg-secondary" style="height: 200px;">
       <div class="container">
@@ -60,9 +61,9 @@
 export default {
   name: 'App',
   created() {
-    // vue가 created 되면 vuex에서 영화 데이터를 가져오는 함수를 실행함
     this.$store.dispatch('getMovieList')
     this.$store.dispatch('getUserList')
+    this.$store.dispatch('getGenreList')
   },
 }
 </script>
@@ -75,7 +76,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #020715;
 }
 
 #nav {
@@ -84,7 +85,7 @@ export default {
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #020715;
 }
 
 #nav a.router-link-exact-active {
