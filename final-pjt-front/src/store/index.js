@@ -34,7 +34,10 @@ export default new Vuex.Store({
     },
     LOGIN(state) {
       state.isLogin = true
-    }
+    },
+    // LOGOUT(state) {
+    //   state.isLogin = false
+    // }
   },
   actions: {
     getMovieList({commit}) {
@@ -68,11 +71,17 @@ export default new Vuex.Store({
       })
     },
     isLogin({commit}) {
+      // 로그인 했는지 확인
       commit("IS_LOGIN")
     },
     login({commit}) {
+      // 로그인 하기
       commit("LOGIN")
     },
+    // logout({commit}) {
+    //   // 로그아웃 하기
+    //   commit("LOGOUT")
+    // }
   },
   modules: {
 

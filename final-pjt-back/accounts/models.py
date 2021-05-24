@@ -6,7 +6,7 @@ from movies.models import Movie
 
 
 class User(AbstractUser):
-    followers = models.ManyToManyField('self', symmetrical=False, related_name='followings')
+    followers = models.ManyToManyField('self', symmetrical=False, related_name='followings', blank=None)
     
 
 class History(models.Model):
