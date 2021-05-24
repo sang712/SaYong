@@ -3,6 +3,9 @@ from django.conf import settings
 
 class Genre(models.Model):
     name = models.CharField(max_length=50)
+    
+    def __str__(self):
+        return self.name
 
 class Movie(models.Model):
     title = models.CharField(max_length=100)
