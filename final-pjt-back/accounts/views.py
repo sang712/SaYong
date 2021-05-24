@@ -12,6 +12,8 @@ from rest_framework import status#, serializers
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import HistorySerializer, UserSerializer
+from movies.models import Movie
+from movies.serializers import MovieSerializer
 
 # 회원가입/수정/삭제는 history에 추가할 것인가?
 
@@ -131,6 +133,12 @@ def history(request):
 def user_history(request, user_pk):
     user_history = get_list_or_404(History, user=user_pk)
     serializer = HistorySerializer(user_history, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def user_favorite(request, user_pk):
+    user_favorite = get_list_or_404(Movie, favorite_users=user_pk)
+    serializer = MovieSerializer(user_favorite, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 

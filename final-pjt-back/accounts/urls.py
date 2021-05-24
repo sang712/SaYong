@@ -13,6 +13,7 @@ urlpatterns = [
     # JWT 토큰
 
     path('<int:user_pk>/history/', views.user_history, name='user_history'),
+    path('<int:user_pk>/favorite/', views.user_favorite, name='user_favorite'),
     path('<int:username>/', views.profile, name='profile'),
     # 반드시 맨 하단에 있어야함
     path('<str:username>/', views.profile, name='profile'),

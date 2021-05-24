@@ -7,6 +7,7 @@ from rest_framework import serializers, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import *
+from accounts.serializers import *
 
 # Create your views here.
 @api_view(['GET'])
@@ -41,17 +42,23 @@ def recommended(request):
 
 
 # if request.user.is_authenticated:
-@api_view(['POST'])
+@api_view(['GET','POST'])
 def favorite(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
-    user = request.user
-    if movie.favorite_users.filter(pk=user.pk).exists():
-        movie.favorite_users.remove(user)
-        logHistory(user, 21, movie=movie)
-        # preLog = History.objects.get(user=user, following=person)
-        # preLog.is_public = False
-    else:
-        movie.favorite_users.add(user)
-        logHistory(user, 20, movie=movie)
-    # return Response()
-    # return redirect('movies:detail', movie.pk)
+    if request.method == 'GET':
+        users = movie.favorite_users.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        user = request.user
+        if movie.favorite_users.filter(pk=user.pk).exists():
+            movie.favorite_users.remove(user)
+            logHistory(user, 21, movie=movie)
+            # preLog = History.objects.get(user=user, following=person)
+            # preLog.is_public = False
+        else:
+            movie.favorite_users.add(user)
+            logHistory(user, 20, movie=movie)
+        users = movie.favorite_users.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
