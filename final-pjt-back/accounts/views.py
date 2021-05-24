@@ -108,9 +108,8 @@ def follow(request, user_pk):
     person = get_object_or_404(get_user_model(), pk=user_pk) # you
     user = request.user # me
     if request.method == 'GET':
-        serializer = UserSerializer(person)
-        return Response(serializer.data)
-        # profile GET 요청과 동일함. 굳이 GET이 필요한가에 대한 의문 발생
+        # 팔로워 정보를 return
+        pass
     elif request.method == 'POST':
         if person != user:
             if person.followers.filter(pk=user.pk).exists():
@@ -119,7 +118,10 @@ def follow(request, user_pk):
             else:
                 person.followers.add(user)
                 logHistory(user, 10, following=person)
-            return Response(status=status.HTTP_200_OK)
+    followers = person.followers.all()
+    serializer = UserSerializer(followers, many=True)
+    return Response(serializer.data)
+        
 
 
 @api_view(['GET'])
@@ -140,6 +142,13 @@ def user_favorite(request, user_pk):
     user_favorite = get_list_or_404(Movie, favorite_users=user_pk)
     serializer = MovieSerializer(user_favorite, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def following(request, user_pk):
+    person = get_object_or_404(get_user_model(), pk=user_pk) # you
+    followings = person.followings.all()
+    serializer = UserSerializer(followings, many=True)
+    return Response(serializer.data)
 
 
 def logHistory(user, action_type, **kwargs):
