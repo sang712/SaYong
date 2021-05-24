@@ -43,6 +43,7 @@
         </div>
       </nav>
     </div>
+    <!-- 홈으로 이어짐 -->
     <router-view/>
     <div id="footer" class="bg-secondary" style="height: 200px;">
       <div class="container">

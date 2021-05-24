@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Account from '../views/Account.vue'
 import ReviewList from '@/views/ReviewList.vue'
+import MovieDetail from '@/components/MovieDetail.vue'
 
 Vue.use(VueRouter)
 
@@ -30,6 +31,11 @@ const routes = [
     name: 'ReviewList',
     component: ReviewList
   },
+  {
+    path: '/movie/:pk',
+    name: 'MovieDetail',
+    component: MovieDetail
+  }
   
 ]
 
