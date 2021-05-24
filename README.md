@@ -65,3 +65,76 @@ vi. 기타 느낀점
 | user        | foreignkey |      |
 | like_users  | foreignkey |      |
 
+
+
+
+
+## URL
+
+### Community
+
+* review
+
+| URL                                | 호출 함수     | 메서드 | 역할                        |
+| ---------------------------------- | ------------- | ------ | --------------------------- |
+| community/review/                  | review_index  | GET    | 모든 리뷰(글) 보기          |
+| community/<movie_pk>/review/       | review_create | POST   | 리뷰(글) 만들기             |
+| community/review/<review_pk>/      | review_detail | GET    | 특정 리뷰(글) 보기          |
+| community/review/<review_pk>/      | review_detail | PUT    | 리뷰(글) 수정               |
+| community/review/<review_pk>/      | review_detail | DELETE | 리뷰(글) 지우기             |
+| community/review/<review_pk>/like/ | review_like   | GET    | ‘좋아요’한 사람 보기        |
+| community/review/<review_pk>/like/ | review_like   | POST   | ‘좋아요’/’좋아요 취소’ 토글 |
+
+* rating
+
+| URL                           | 호출 함수     | 메서드 | 역할                                    |
+| ----------------------------- | ------------- | ------ | --------------------------------------- |
+| community/rating/             | rating_index  | GET    | 모든 평점 보기                          |
+| community/<movie_pk>/rating/  | rating_create | POST   | 평점 만들기                             |
+|                               |               |        | 특정 영화 모든 평점 보기(영화에서 지원) |
+| community/rating/<rating_pk>/ | rating_detail | GET    | 특정 평점 보기                          |
+| community/rating/<rating_pk>/ | rating_detail | PUT    | 평점 수정                               |
+| community/rating/<rating_pk>/ | rating_detail | DELETE | 평점 지우기                             |
+
+* comment
+
+| URL                             | 호출 함수      | 메서드 | 역할                               |
+| ------------------------------- | -------------- | ------ | ---------------------------------- |
+| community/comment/              | comment_index  | GET    | 모든 댓글 보기                     |
+|                                 |                |        | 특정 리뷰 댓글 보기(리뷰에서 지원) |
+| community/<review_pk>/comment/  | comment_create | POST   | 댓글 만들기                        |
+| community/comment/<comment_pk>/ | comment_detail | GET    | 특정 댓글 보기                     |
+| community/comment/<comment_pk>/ | comment_detail | PUT    | 댓글 수정                          |
+| community/comment/<comment_pk>/ | comment_detail | DELETE | 댓글 지우기                        |
+
+
+
+### Movies
+
+| URL                                       | 호출 함수      | 메서드 | 역할                                         |
+| ----------------------------------------- | -------------- | ------ | -------------------------------------------- |
+| movies/                                   | movie_index    | GET    | 모든 영화 보기                               |
+| movies/<movie_pk>/                        | movie          | GET    | 특정 영화 보기                               |
+| admin/                                    |                |        | 관리자 영화 추가 수정 삭제                   |
+| movies/recommended/[**kwargs: q=’’&....]/ | recommend      | GET    | 검색어로 영화 추천 받기                      |
+| movies/favorite/                          | favorite_index | GET    | 모든 영화 찜(한 목록) 보기                   |
+|                                           |                |        | 특정 유저 찜한 영화 목록 보기(유저에서 지원) |
+|                                           |                |        | 특정 영화 찜한 유저 목록 보기(영화에서 지원) |
+| movies/<movie_pk>/favorite/               | favorite       | POST   | 영화 ‘찜’/’찜 취소’ 토글                     |
+
+
+
+### Accounts
+
+| URL                               | 호출 함수 | 메서드     | 역할                     |
+| --------------------------------- | --------- | ---------- | ------------------------ |
+| accounts/                         | signup    | GET & POST | 계정 생성화면 & 생성하기 |
+| accounts/index/                   | index     | GET        | 모든 계정 보기           |
+| accounts/<username>/              | profile   | POST       | 계정 정보 보기           |
+| accounts/<username>/              | profile   | PUT        | 계정 정보 수정           |
+| accounts/<username>/              | profile   | DELETE     | 계정 삭제                |
+| accounts/follow/<account_pk>/     |           | GET        | 팔로잉, 팔로워 목록보기  |
+| accounts/follow/<account_pk>/     |           | POST       | ‘팔로우’/’언팔로우’ 토글 |
+| accounts/api-token-auth/          |           | POST       | JWT 토큰 받기            |
+| 버튼 동작(로그아웃, Vue에서 처리) |           | POST       | 로그아웃(JWT 토큰 삭제)  |
+

@@ -9,6 +9,7 @@
 import axios from 'axios'
 import Review from '@/components/Review.vue'
 
+
 export default {
   name: 'ReviewList',
   components: {
@@ -19,7 +20,7 @@ export default {
       reviews: [],
     }
   },
-  created() {
+  created: function() {
     axios({
       method: 'get',
       url: 'http://127.0.0.1:8000/community/review/',

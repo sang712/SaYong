@@ -1,10 +1,9 @@
 <template>
   <div>
-    <div class="mx-3 text-start">Movie Collection Title</div>
-    <div class="d-flex flex-row">
-      <MovieCard/>
-      <MovieCard/>
-      <MovieCard/>
+    <!-- 텍스트 사이즈 주기 -->
+    <div class="mx-3 text-start">{{ collectionTitle }}</div>
+    <div class="d-flex row row-cols-4 justify-content-center">
+      <MovieCard v-for="(movie, idx) in movies" :movie="movies[idx]" :key="idx"/>
     </div>
   </div>
 </template>
@@ -17,6 +16,15 @@ export default {
   components: {
     MovieCard,
   },
+  data: function () {
+    return {
+      
+    }
+  },
+  props: {
+    movies: Array,
+    collectionTitle: String,
+  }
 }
 </script>
 

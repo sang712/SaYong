@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <!-- 캐로셀 div -->
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -9,24 +10,24 @@
       <div class="carousel-inner">
         <div class="carousel-item active">
           <img src="https://www.ssafy.com/swp/images/sns_img.png" class="d-block w-100" alt="...">
-          <div class="carousel-caption d-none d-md-block">
+          <!-- <div class="carousel-caption d-none d-md-block">
             <h5>First slide label</h5>
             <p>Some representative placeholder content for the first slide.</p>
-          </div>
+          </div> -->
         </div>
         <div class="carousel-item">
           <img src="https://www.ssafy.com/swp/images/sns_img.png" class="d-block w-100" alt="...">
-          <div class="carousel-caption d-none d-md-block">
+          <!-- <div class="carousel-caption d-none d-md-block">
             <h5>Second slide label</h5>
             <p>Some representative placeholder content for the second slide.</p>
-          </div>
+          </div> -->
         </div>
         <div class="carousel-item">
           <img src="https://www.ssafy.com/swp/images/sns_img.png" class="d-block w-100" alt="...">
-          <div class="carousel-caption d-none d-md-block">
+          <!-- <div class="carousel-caption d-none d-md-block">
             <h5>Third slide label</h5>
             <p>Some representative placeholder content for the third slide.</p>
-          </div>
+          </div> -->
         </div>
       </div>
       <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
@@ -38,20 +39,30 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div>
-    <MovieCollection/>
-    <MovieCollection/>
+    <!-- 캐로셀 div 끝 -->
+    <MovieCollection :movies="movies" :collectionTitle="collectionTitle"/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import MovieCollection from '@/components/MovieCollection.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Home',
   components: {
-    // HelloWorld,
     MovieCollection,
+  },
+  data: function() {
+    return {
+      collectionTitle: "모든 영화",
+    }
+  },
+  computed: {
+    ...mapState([
+      'movies'
+    ])
   }
 }
 </script>
