@@ -24,17 +24,18 @@ const routes = [
   {
     path: '/account',
     name: 'Account',
-    component: Account
+    component: Account,
   },
   {
     path: '/review',
     name: 'ReviewList',
-    component: ReviewList
+    component: ReviewList,
   },
   {
     path: '/movie/:pk',
     name: 'MovieDetail',
-    component: MovieDetail
+    component: MovieDetail,
+    props: true,
   }
   
 ]

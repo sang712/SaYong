@@ -41,7 +41,9 @@
     </div>
     <!-- 캐로셀 div 끝 -->
     <!-- 영화 컬렉션 -->
-    <MovieCollection :movies="movies" :collectionTitle="collectionTitle"/>
+    <div class="container">
+      <MovieCollection :movies="movies" :collectionTitle="collectionTitle"/>
+    </div>
   </div>
 </template>
 

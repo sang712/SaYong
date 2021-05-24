@@ -2,7 +2,7 @@
   <div>
     <!-- 텍스트 사이즈 주기 -->
     <div class="mx-3 text-start">{{ collectionTitle }}</div>
-    <div class="d-flex row row-cols-4 justify-content-center">
+    <div class="d-flex row justify-content-center">
       <MovieCard v-for="(movie, idx) in movies" :movie="movies[idx]" :key="idx"/>
     </div>
   </div>
