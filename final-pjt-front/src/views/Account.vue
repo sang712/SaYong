@@ -1,6 +1,5 @@
 <template>
-  <div class="container bg-primary">
-    {{ users }}
+  <div class="my-3 container">
     <AccountCard v-for="(user, idx) in users" :user="user" :key="idx"/>
   </div>
 </template>
