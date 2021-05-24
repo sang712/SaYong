@@ -10,9 +10,8 @@
           <div class="card-body text-start">
             <h1 class="card-title">{{ movie.title }}</h1>
             <span>{{ movie.release_date| year }} | </span>
-            <span v-for="(genre, idx) in movie.genres" :key="idx">{{ genre| genre }} | </span>
+            <span>{{ movieGenres }} | </span>
             <br>
-            <span class="card-text">누적관객 : {{ movie.popularity| popularity }} | </span>
             <span class="card-text">평균 점수 : {{ movie.vote_average }}</span>
             <hr>
             <h4>줄거리</h4>
@@ -33,6 +32,7 @@ export default {
   data: function() {
     return {
       movie: [],
+      movieGenres: [],
     }
   },
   props: {
@@ -42,7 +42,12 @@ export default {
 
   },
   created() {
-    this.movie = this.movies[Number(this.pk)]
+    this.movie = this.movies.find((movie) => {
+      return (movie.id===Number(this.pk))
+    })
+    this.movieGenres = this.movie.genres.map(genre => {
+      return genre.name
+    }).join('/')
   },
   computed: {
     ...mapState([
@@ -53,10 +58,6 @@ export default {
   filters: {
     year: function(value) {
       return value.substring(0,4)
-    },
-    genre: (value) => {
-      return value
-      // return this.genres[value]
     },
     popularity: (value) => {
       return value * 1000

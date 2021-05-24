@@ -14,7 +14,8 @@ from accounts.serializers import *
 def index(request):
     movies = get_list_or_404(Movie)
     serializer = MovieSerializer(movies, many=True)
-    return Response(serializer.data)
+    sorted_serializer = sorted(serializer.data, key=lambda k: k['popularity'], reverse=True)
+    return Response(sorted_serializer)
 
 @api_view(['GET'])
 def genre(request):
