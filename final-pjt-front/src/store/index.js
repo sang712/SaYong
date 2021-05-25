@@ -9,7 +9,7 @@ export default new Vuex.Store({
     movies: [],
     users: [],
     genres: [],
-    user: [],
+    user: { favorite_movies: [] },
     username: '',
     isLogin: false,
   },
@@ -38,9 +38,8 @@ export default new Vuex.Store({
         state.isLogin = false
       }
     },
-    LOGIN(state, username) {
+    LOGIN(state) {
       state.isLogin = true
-      state.username = username
     },
     // LOGOUT(state) {
     //   state.isLogin = false
@@ -91,6 +90,7 @@ export default new Vuex.Store({
     },
     getUser({commit}) {
       const token = localStorage.getItem('jwt')
+      this.state.username = localStorage.getItem('username')
       if (this.state.username) {
         axios({
           method: 'get',
@@ -100,7 +100,7 @@ export default new Vuex.Store({
         .then(res => {
           console.log(res)
           const user = res.data
-          console.log(user)
+          console.log("getUser", this.state.username, user)
           commit("GET_USER", user)
         })
         .catch(err => {
@@ -114,9 +114,9 @@ export default new Vuex.Store({
       // 로그인 했는지 확인
       commit("IS_LOGIN")
     },
-    login({commit}, username) {
+    login({commit}) {
       // 로그인 하기
-      commit("LOGIN", username)
+      commit("LOGIN")
     },
     // logout({commit}) {
     //   // 로그아웃 하기

@@ -48,8 +48,12 @@ export default {
       })
       .then(res => {
         localStorage.setItem('jwt', res.data.token)
-        this.$store.dispatch('login', this.credentials.username) // 로그인 완료
+        localStorage.setItem('username', this.credentials.username)
+        this.$store.dispatch('login') // 로그인 완료
         this.$store.dispatch('getUser')
+      })
+      .then(() => {
+        this.$router.push({name: 'Home'})
       })
       .catch(err => {
         console.log(err)

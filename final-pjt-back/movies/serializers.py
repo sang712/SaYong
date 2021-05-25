@@ -1,5 +1,6 @@
 # from django.db.models import fields
 from rest_framework import serializers
+from rest_framework.fields import ReadOnlyField
 from .models import Genre, Movie
 
 class GenreSerializer(serializers.ModelSerializer):

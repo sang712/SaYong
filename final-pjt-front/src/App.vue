@@ -46,7 +46,9 @@
               <li v-else class="nav-item p-2">
                 <router-link :to="{ name: 'Login' }">로그인</router-link>
               </li>
-              {{ this.$store.state.username.username }}
+              <li>
+              {{ this.$store.state.username }}
+              </li>
             </ul>
             <form class="d-flex">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -146,6 +148,7 @@ export default {
     logout: function() {
       this.$store.dispatch('logout')
       localStorage.removeItem('jwt')
+      localStorage.removeItem('username')
       this.$router.push({ name: 'Login'})
       location.reload() // 강제 새로고침
     }

@@ -27,6 +27,7 @@ export default {
   data: function () {
     return {
       isStyle: false,
+      
     }
   },
   props: {
@@ -36,17 +37,18 @@ export default {
   },
   computed: {
     ...mapState([
+      'username',
       'user',
     ]),
   },
-  mounted: function() {
+  beforeMount: function() {
     if (this.user) {
-      console.log(this.user)
         this.isStyle = this.user.favorite_movies.some((movie) => {
           return this.movie.id === movie.id
         })
+        
       } else {
-        this.isStyle
+        this.isStyle = false
       }
   },
   // watch: {
