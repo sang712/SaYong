@@ -26,15 +26,15 @@
       <div class="card w-100">
         <div class="card-body">
           <p class="card-title">팔로워</p>
-          <p class="card-text" v-if="followers===[]">0</p>
-          <p class="card-text" v-else>{{ followers.length }}</p>
+          <p class="card-text" v-if="user.followers===[]">0</p>
+          <p class="card-text" v-else>{{ user.followers.length }}</p>
         </div>
       </div>
       <div class="card w-100">
         <div class="card-body">
           <p class="card-title">팔로잉</p>
-          <p class="card-text" v-if="followings===[]">0</p>
-          <p class="card-text" v-else>{{ followings.length }}</p>
+          <p class="card-text" v-if="user.followings===[]">0</p>
+          <p class="card-text" v-else>{{ user.followings.length }}</p>
         </div>
       </div>
     </div>
@@ -42,29 +42,31 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
   name: 'ShortAccountCard',
   props: {
     user: {},
-    followers: Array,
-    followings: Array,
   },
-  created: function (){
-    axios.get(`http://127.0.0.1:8000/accounts/follow/${this.user.id}/`)
-      .then(res => {
-        // console.log(res)
-        this.followers = res.data
-      })
-      .catch(err => {console.log(err)})
-    axios.get(`http://127.0.0.1:8000/accounts/${this.user.id}/following/`)
-      .then(res => {
-        // console.log(res)
-        this.followings = res.data
-      })
-      .catch(err => {console.log(err)})
-  },
+  data: function () {return {
+    // followers: Array,
+    // followings: Array,
+  }},
+  // created: function (){
+  //   axios.get(`http://127.0.0.1:8000/accounts/follow/${this.user.id}/`)
+  //     .then(res => {
+  //       // console.log(res)
+  //       this.followers = res.data
+  //     })
+  //     .catch(err => {console.log(err)})
+  //   axios.get(`http://127.0.0.1:8000/accounts/${this.user.id}/following/`)
+  //     .then(res => {
+  //       // console.log(res)
+  //       this.followings = res.data
+  //     })
+  //     .catch(err => {console.log(err)})
+  // },
 }
 </script>
 

@@ -51,14 +51,18 @@
     </div>
 
     <div id="followers" class="bg-light">
-      <span v-if="followers===[]">Followers: 0</span>
-      <span v-else>Followers: {{ followers.length }}</span>
-      <ShortAccountCard v-for="(follower, idx) in followers" :key="idx" :user="follower"/>
+      <div v-if="followers===[]">Followers: 0</div>
+      <div v-else>
+        Followers: {{ followers.length }}
+        <ShortAccountCard v-for="(follower, idx) in followers" :key="idx" :user="follower"/>
+      </div>
     </div>
-    <div id="followings" class="bg-light" v-if="followings!==[]">
-      <span v-if="followers===[]">Followings: 0</span>
-      <span v-else>Followings: {{ followings.length }}</span>
-      <ShortAccountCard v-for="(following, idx) in followings" :key="idx" :user="following"/>
+    <div id="followings" class="bg-light">
+      <div v-if="followings===[]">Followings: 0</div>
+      <div v-else>
+        Followings: {{ followings.length }}
+        <ShortAccountCard v-for="(following, idx) in followings" :key="idx" :user="following"/>
+      </div>
     </div>
 
   </div>
