@@ -10,8 +10,8 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_reviews')
-
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='like_reviews')
+    # blank=True 가 없으면 리뷰를 작성할 때 해당 리뷰를 좋아하는 사람을 무조건 넣어야된다.
 
 class Comment(models.Model):
     content = models.TextField()

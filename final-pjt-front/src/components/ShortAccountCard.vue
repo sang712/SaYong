@@ -1,8 +1,8 @@
 <template>
   <div>
     <h5 class="card-title" id="username">{{ user.username }}</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-    <span class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</span>
+    <h6 class="card-subtitle mb-2 text-muted">이메일주소? 이름?</h6>
+    <span class="card-text">이 사람을 설명하는 글</span>
 
     <div class="my-1 card-group d-flex justify-content-center">
       <div class="card w-100">

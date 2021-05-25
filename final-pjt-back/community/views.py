@@ -40,6 +40,7 @@ def review_detail(request, review_pk):
         # 댓글들을 어떻게 리뷰를 호출할 때 같이 가져올 것인가. 어디선가 배웠는데?
         # comments = review.comment_set.all()
         # comment_form = CommentForm()
+        # 해결법: serializers.py에서 변수로 해당 serializer 삽입
         serializer = ReviewSerializer(review)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'PUT':
@@ -62,8 +63,7 @@ def review_detail(request, review_pk):
 def review_like(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
     if request.method == 'GET':
-        serializer = ReviewSerializer(review)
-        return Response(serializer.data)
+        pass # if-elif 분기 이후로 이동
         # review_detail GET 요청과 동일함. 굳이 GET이 필요한가에 대한 의문 발생
     elif request.method == 'POST':
         user = request.user
@@ -73,7 +73,8 @@ def review_like(request, review_pk):
         else:
             review.like_users.add(user)
             logHistory(request.user, 50, review=review)
-        # Response가 따로 필요 없다? like에 대한 반응은 vue.js에서 처리
+    serializer = ReviewSerializer(review)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
@@ -129,7 +130,7 @@ def comment_create(request, review_pk):
         comment = serializer.save(review=review, user=request.user)
         logHistory(request.user, 30, comment=comment)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    # return render(request, 'movies/detial.html', context)
+
 
 @api_view(['GET','PUT','DELETE'])
 def comment_detail(request, comment_pk):

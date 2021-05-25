@@ -6,10 +6,12 @@ from community.serializers import RatingSerializer, ReviewSerializer, CommentSer
 from movies.serializers import MovieSerializer
 
 class HistorySerializer(serializers.ModelSerializer):
-    
+# 여기엔 뭘 넣으면 .. 오류가 나네
+
     class Meta:
         model = History
         fields = '__all__'
+        
 
 
 class UserSerializer(serializers.ModelSerializer):

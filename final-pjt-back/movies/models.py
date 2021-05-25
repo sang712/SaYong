@@ -16,7 +16,7 @@ class Movie(models.Model):
     overview = models.TextField()
     poster_path = models.CharField(max_length=200)
     genres = models.ManyToManyField(Genre)
-    favorite_users = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True, blank=True, related_name='favorite_movies')
+    favorite_users = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='favorite_movies')
 
     def __str__(self):
         return self.title
