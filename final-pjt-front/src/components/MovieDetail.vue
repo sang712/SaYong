@@ -5,14 +5,19 @@
       <div class="row g-0 justify-content-between">
         <div class="col-md-4 row p-0">
           <img :src=movie.poster_path class="col-12 p-0" alt="movie_poster">
+          <!-- MovieCard.vue의 찜 버튼이 추가되면 여기에도 추가하기 -->
         </div>
         <div class="col-md-8">
           <div class="card-body text-start">
             <h1 class="card-title">{{ movie.title }}</h1>
             <span>{{ movie.release_date| year }} | </span>
-            <span>{{ movieGenres }} | </span>
+            <span>{{ movieGenres }}</span>
             <br>
-            <span class="card-text">평균 점수 : {{ movie.vote_average }}</span>
+            <span class="card-text">평균 점수 : {{ movie.vote_average }} | </span>
+            <span>
+              내 점수 : 
+              <StarRating :grade="0" :maxStars="10" :hascounter="true"/>
+            </span>
             <hr>
             <h4>줄거리</h4>
             <p v-if="movie.overview" class="card-text">{{ movie.overview }}</p>
@@ -26,20 +31,25 @@
 
 <script>
 import { mapState } from 'vuex'
+import StarRating from '@/components/StarRating.vue'
 
 export default {
   name: 'MovieDetail',
+  components: {
+    StarRating,
+  },
   data: function() {
     return {
       movie: [],
       movieGenres: [],
+      ratingNumber: 0,
     }
   },
   props: {
     'pk': Number,
   },
   function: {
-
+    
   },
   created() {
     this.movie = this.movies.find((movie) => {

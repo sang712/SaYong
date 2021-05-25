@@ -3,7 +3,7 @@
      <!-- style="width: 18rem;"> -->
     <router-link :to="{ name: 'MovieDetail', params: { pk: movie.id } }">
       <div class="card bg-light" style="height: 100%;">
-          <img :src=movie.poster_path class="card-img" alt="...">
+        <img :src=movie.poster_path class="card-img" alt="...">
         <div class="card-img-overlay p-xl-2">
           <div class="position-relative">
             <button @click.prevent="dips" class="btn rounded-circle p-0 position-absolute top-0 end-0" style="background-color: #FFFFFF; width: 30px; height: 30px"><i class="far fa-star" style="color: #D5D5D5;"></i></button>
