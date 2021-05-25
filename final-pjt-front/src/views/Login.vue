@@ -1,15 +1,24 @@
 <template>
-  <div>
+  <div class="d-flex flex-column justify-content-center">
     <h1>Login</h1>
-    <div>
-      <span for="username">사용자 이름: </span>
-      <input type="text" id="username" v-model="credentials.username">
+    <div v-if="needToLogin" class="d-flex justify-content-center">
+      <div class="needToLogin alert alert-danger">
+        로그인이 필요한 요청입니다. 
+      </div>
     </div>
-    <div>
-      <span for="password">비밀번호: </span>
-      <input @keyup.enter="login(credentials)" type="password" id="password" v-model="credentials.password">
+    <div class="loginForm d-flex justify-content-center">
+      <div class="border border-secondary rounded-3">
+        <div class="input position-relative">
+          <span for="username" class="align-middle">사용자 이름: </span>
+          <input type="text" id="username" v-model="credentials.username" class="position-absolute end-0">
+        </div>
+        <div class="input position-relative">
+          <span for="password" class="align-middle">비밀번호: </span>
+          <input @keyup.enter="login(credentials)" type="password" id="password" v-model="credentials.password" class="position-absolute end-0">
+        </div>
+        <button @click="login(credentials)" class="btn btn-success">로그인</button>
+      </div>
     </div>
-    <button @click="login(credentials)">로그인</button>
   </div>
 </template>
 
@@ -23,8 +32,12 @@ export default {
       credentials: {
         username: null,
         password: null,
+      needToLogin: false,
       }
     }
+  },
+  props: {
+    needToLogin: Boolean,
   },
   methods: {
     login: function () {
@@ -35,8 +48,8 @@ export default {
       })
       .then(res => {
         localStorage.setItem('jwt', res.data.token)
-        this.$store.dispatch('login') // 로그인 완료
-        this.$router.push({ name: 'Home' })
+        this.$store.dispatch('login', this.credentials.username) // 로그인 완료
+        this.$store.dispatch('getUser')
       })
       .catch(err => {
         console.log(err)
@@ -47,5 +60,24 @@ export default {
 </script>
 
 <style>
-
+.needToLogin {
+  width: 400px;
+  margin: 8px;
+}
+.loginForm .border{
+  width: 400px;
+  height: 220px;
+  margin: 16px;
+  padding: 40px;
+}
+.loginForm div {
+  padding: 8px;
+}
+.loginForm .input { 
+  text-align: left;
+}
+.loginForm button {
+  margin: 8px;
+  text-align: right;
+}
 </style>

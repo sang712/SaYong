@@ -6,9 +6,8 @@
         <img :src=movie.poster_path class="card-img" alt="...">
         <div class="card-img-overlay p-xl-2">
           <div class="position-relative">
-            <button @click.prevent="dips" class="btn rounded-circle p-0 position-absolute top-0 end-0" style="background-color: #FFFFFF; width: 30px; height: 30px"><i class="far fa-star" style="color: #D5D5D5;"></i></button>
-            <!-- v-if="movie.favorite_users.includes(this.user)" -->
-            <!-- <button v-else @click.prevent="dips" class="btn rounded-circle p-0 position-absolute top-0 end-0" style="background-color: #FFFFFF; width: 30px; height: 30px"><i class="fas fa-star" style="color: #FFE400;"></i></button> -->
+            <button v-show="isStyle" @click.prevent="dips" class="btn rounded-circle p-0 position-absolute top-0 end-0" style="background-color: #FFFFFF; width: 30px; height: 30px"><i class="fas fa-star" style="color: #FFE400;"></i></button>
+            <button v-show="!isStyle" @click.prevent="dips" class="btn rounded-circle p-0 position-absolute top-0 end-0" style="background-color: #FFFFFF; width: 30px; height: 30px"><i class="far fa-star" style="color: #D5D5D5;"></i></button>
           </div>
         </div>
         <!-- <router-link :to="{ name: 'MovieDetail', params: { pk: movie.id } }"> -->
@@ -21,12 +20,13 @@
 
 <script>
 import axios from 'axios'
+import { mapState } from 'vuex'
 
 export default {
   name: 'MovieCard',
   data: function () {
     return {
-
+      isStyle: false,
     }
   },
   props: {
@@ -34,18 +34,52 @@ export default {
     // title: '',
     // explanation: '',
   },
+  computed: {
+    ...mapState([
+      'user',
+    ]),
+  },
+  mounted: function() {
+    if (this.user) {
+      console.log(this.user)
+        this.isStyle = this.user.favorite_movies.some((movie) => {
+          return this.movie.id === movie.id
+        })
+      } else {
+        this.isStyle
+      }
+  },
+  // watch: {
+  //   isDip: function() {
+
+  //   }
+  // },
   methods: {
+    isDip: function() {
+      
+    },
+    setToken: function () {
+      const token = localStorage.getItem('jwt')
+      const headers = {
+        Authorization: `JWT ${token}`
+      }
+      return headers
+    },
     dips: function() {
-      // 요청 응답에 문제 있음 아마 db상에서 맞지 않는 거 같음
-      // 현재 에러 메시지
-      // TypeError: Field 'id' expected a number but got <django.contrib.auth.models.AnonymousUser object at 0x0000022FB480DBE0>.
-      console.log(this.movie.id)
-      axios.post(`http://127.0.0.1:8000/movies/${this.movie.id}/favorite/`)
+      axios({
+        method: 'post',
+        url: `http://127.0.0.1:8000/movies/${this.movie.id}/favorite/`,
+        headers: this.setToken(),
+      })
       .then((res) => {
         console.log(res)
+        this.isStyle = !this.isStyle
       })
       .catch((err) => {
-        console.log(err)
+        if (err.response.status === 401) {
+          this.$router.push({ name: 'Login', params: { needToLogin: true } })
+        }
+        console.log(err.response)
       })
     }
   }

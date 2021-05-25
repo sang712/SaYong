@@ -46,7 +46,7 @@
               <li v-else class="nav-item p-2">
                 <router-link :to="{ name: 'Login' }">로그인</router-link>
               </li>
-
+              {{ this.$store.state.username.username }}
             </ul>
             <form class="d-flex">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -137,6 +137,10 @@ export default {
     this.$store.dispatch('getUserList')
     this.$store.dispatch('getGenreList')
     this.$store.dispatch('isLogin') // 로그인 상태확인
+    this.$store.dispatch('getUser') // 현재 로그인한 유저 정보 가져오기
+  },
+  computed: {
+
   },
   methods: {
     logout: function() {
