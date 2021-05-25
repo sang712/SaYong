@@ -99,11 +99,11 @@ def rating_index(request):
 @authentication_classes([JSONWebTokenAuthentication])
 @permission_classes([IsAuthenticated])
 def rating_create(request, movie_pk):
-    serializer = RatingSerializer(data=request.data)
     movie = get_object_or_404(Movie, pk=movie_pk)
+    serializer = RatingSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
-        review = serializer.save(user=request.user, movie=movie)
-        logHistory(request.user, 30, review=review)
+        rating = serializer.save(user=request.user, movie=movie)
+        logHistory(request.user, 30, rating=rating, movie=movie)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 

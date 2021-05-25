@@ -1,7 +1,7 @@
 <template>
   <div class="m-0 py-1 mx-xxl-0 col-xl-2 mx-xl-1 col-lg-3 col-sm-6">
      <!-- style="width: 18rem;"> -->
-    <router-link :to="{ name: 'MovieDetail', params: { pk: movie.id } }">
+    <router-link :to="{ name: 'MovieDetail', params: { pk: movie.id, user: user } }">
       <div class="card bg-light" style="height: 100%;">
         <img :src=movie.poster_path class="card-img" alt="...">
         <div class="card-img-overlay p-xl-2">
