@@ -1,16 +1,19 @@
 from django.shortcuts import get_list_or_404, render, redirect, get_object_or_404
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
-from rest_framework.serializers import Serializer
 from .models import Review, Comment
 # from .forms import ReviewForm, CommentForm, RatingForm
 from accounts.views import logHistory
 from movies.models import Movie
 from rest_framework import status
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import *
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def review_index(request):
     reviews = Review.objects.order_by('-pk')
     serializer = ReviewSerializer(reviews, many=True)
@@ -24,6 +27,8 @@ def review_index(request):
 
 
 @api_view(['POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def review_create(request, movie_pk):
     serializer = ReviewSerializer(data=request.data)
     movie = get_object_or_404(Movie, pk=movie_pk)
@@ -34,6 +39,8 @@ def review_create(request, movie_pk):
 
 
 @api_view(['GET','PUT','DELETE'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def review_detail(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
     if request.method == 'GET':
@@ -59,6 +66,8 @@ def review_detail(request, review_pk):
 # if request.user.is_authenticated:
 #     return redirect('accounts:login')
 @api_view(['GET','POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def review_like(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
     if request.method == 'GET':
@@ -77,6 +86,8 @@ def review_like(request, review_pk):
 
 
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def rating_index(request):
     ratings = Rating.objects.all()
     serializer = RatingSerializer(ratings, many=True)
@@ -84,6 +95,8 @@ def rating_index(request):
 
 
 @api_view(['POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def rating_create(request, movie_pk):
     serializer = RatingSerializer(data=request.data)
     movie = get_object_or_404(Movie, pk=movie_pk)
@@ -94,6 +107,8 @@ def rating_create(request, movie_pk):
 
 
 @api_view(['GET','PUT','DELETE'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def rating_detail(request, rating_pk):
     rating = get_object_or_404(Rating, pk=rating_pk)
     if request.method == 'GET':
@@ -114,6 +129,8 @@ def rating_detail(request, rating_pk):
         return Response(data, status=status.HTTP_204_NO_CONTENT)
 
 
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def comment_index(request):
     comments = get_list_or_404(Comment)
@@ -121,6 +138,8 @@ def comment_index(request):
     return Response(serializer.data)
 
 
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 @api_view(['POST'])
 def comment_create(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
@@ -131,6 +150,9 @@ def comment_create(request, review_pk):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     # return render(request, 'movies/detial.html', context)
 
+
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 @api_view(['GET','PUT','DELETE'])
 def comment_detail(request, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)

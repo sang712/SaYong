@@ -37,10 +37,20 @@ export default {
   props: {
     review: {},
   },
+  methods: {
+    setToken: function () {
+      const token = localStorage.getItem('jwt')
+      const headers = {
+        Authorization: `JWT ${token}`
+      }
+      return headers
+    },
+  },
   created: function () {
     axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/movies/${this.review.movie}/`,
+      headers: this.setToken(),
     })
       .then(res => {
         this.movie = res.data
@@ -49,6 +59,7 @@ export default {
     axios({
       method: 'GET',
       url: `http://127.0.0.1:8000/accounts/${this.review.user}/`,
+      headers: this.setToken(),
     })
       .then(res => {
         this.user = res.data

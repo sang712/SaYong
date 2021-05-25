@@ -4,10 +4,12 @@ from .models import Movie, Genre
 from accounts.views import logHistory
 # from community.forms import RatingForm
 from rest_framework import serializers, status
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import *
 from accounts.serializers import *
+from rest_framework.decorators import  api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 # Create your views here.
 @api_view(['GET'])
@@ -44,6 +46,8 @@ def recommended(request):
 
 # if request.user.is_authenticated:
 @api_view(['GET','POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def favorite(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     if request.method == 'GET':
