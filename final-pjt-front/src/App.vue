@@ -35,7 +35,7 @@
                 <router-link :to="{ name: 'Account' }">모두의 프로필</router-link>
               </li>
               <li v-if="this.$store.state.isLogin" class="nav-item p-2">
-                <router-link :to="{ name: 'AccountPK', params: { pk: 1 }}" >내 프로필</router-link>
+                <router-link :to="{ name: 'AccountPK', params: { pk: this.$store.state.user.id }}" >내 프로필</router-link>
               </li>
               <li v-else class="nav-item p-2">
                 <router-link :to="{ name: 'Signup' }">회원가입</router-link>
@@ -146,6 +146,8 @@ export default {
     this.$store.dispatch('getMovieList')
     this.$store.dispatch('getUserList')
     this.$store.dispatch('getGenreList')
+    this.$store.dispatch('getRatingList')
+    this.$store.dispatch('getReviewList')
     this.$store.dispatch('isLogin') // 로그인 상태확인
     this.$store.dispatch('getUser') // 현재 로그인한 유저 정보 가져오기
   },

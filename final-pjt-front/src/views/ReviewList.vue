@@ -1,7 +1,7 @@
 <template>
   <div class="reviewList">
     <h2>This is a review page.</h2>
-    <button>리뷰 작성하기</button>
+
     <Review v-for="(review, idx) in reviews" :review="review" :key="idx"/>
   </div>
 </template>

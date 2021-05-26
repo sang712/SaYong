@@ -9,6 +9,8 @@ export default new Vuex.Store({
     movies: [],
     users: [],
     genres: [],
+    ratings: [],
+    reviews: [],
     user: { favorite_movies: [] },
     username: '',
     isLogin: false,
@@ -19,6 +21,12 @@ export default new Vuex.Store({
     },
     GET_USER_LIST(state, userList) {
       state.users = userList
+    },
+    GET_RATING_LIST(state, ratingList) {
+      state.ratings = ratingList
+    },
+    GET_REVIEW_LIST(state, reviewList) {
+      state.reviews = reviewList
     },
     GET_GENRE_LIST(state, genreList) {
       const genres = {}
@@ -83,6 +91,36 @@ export default new Vuex.Store({
       .then(res => {
         const userList = res.data
         commit("GET_USER_LIST", userList)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+    getRatingList({commit}) {
+      const token = localStorage.getItem('jwt')
+      axios({
+        method: 'get',
+        url: 'http://127.0.0.1:8000/community/rating/',
+        headers: {Authorization: `JWT ${token}`},
+      })
+      .then(res => {
+        const ratingList = res.data
+        commit("GET_RATING_LIST", ratingList)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+    getReviewList({commit}) {
+      const token = localStorage.getItem('jwt')
+      axios({
+        method: 'get',
+        url: 'http://127.0.0.1:8000/community/review/',
+        headers: {Authorization: `JWT ${token}`},
+      })
+      .then(res => {
+        const reviewList = res.data
+        commit("GET_REVIEW_LIST", reviewList)
       })
       .catch(err => {
         console.log(err)

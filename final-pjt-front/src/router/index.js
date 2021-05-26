@@ -5,6 +5,7 @@ import Account from '../views/Account.vue'
 import Signup from '@/views/Signup.vue'
 import Login from '@/views/Login.vue'
 import ReviewList from '@/views/ReviewList.vue'
+import Review from '@/components/Review.vue'
 import MovieDetail from '@/components/MovieDetail.vue'
 import AccountPK from '@/views/AccountPK.vue'
 
@@ -39,6 +40,12 @@ const routes = [
     path: '/review',
     name: 'ReviewList',
     component: ReviewList,
+  },
+  {
+    path: '/review/:pk',
+    name: 'Review',
+    component: Review,
+    props: true,
   },
   {
     path: '/movie/:pk',
