@@ -30,14 +30,14 @@ export default {
     },
     rate(star) {
       if (typeof star === 'number' && star <= this.maxStars && star >= 0) {
-        this.stars = this.stars === star ? star - 1 : star
+        this.stars = this.stars === star ? 0 : star
       }
       axios({
         method: 'POST',
         url: `http://127.0.0.1:8000/community/${this.movie.id}/rating/`,
         headers: this.setToken(),
         data: {
-          rank: star,
+          rank: this.stars,
           movie: this.movie.id,
           user: this.user.id,
         }

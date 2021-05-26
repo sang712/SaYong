@@ -51,8 +51,12 @@
               </li>
             </ul>
             <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success p-0" type="submit">검색</button>
+              <span>
+               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              </span>
+              <span>
+               <button class="btn btn-outline-success btn-lg px-2 py-1 mx-1" type="submit" ><i class="fas fa-search" style=""></i></button>
+              </span>
             </form>
           </div>
         </div>
