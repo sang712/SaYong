@@ -15,7 +15,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item p-2">
-                <router-link :to="{ name: 'About' }">추천페이지</router-link>
+                <router-link :to="{ name: 'Recommend' }">추천페이지</router-link>
               </li>
               <li class="nav-item p-2">
                 <router-link :to="{ name: 'ReviewList' }">리뷰페이지</router-link>
@@ -175,10 +175,15 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #020715;
+  /* color: #fcfbfa */
 }
 
 #nav {
   padding: 0px;
+}
+
+nav {
+  background: #020715;
 }
 
 #nav a {

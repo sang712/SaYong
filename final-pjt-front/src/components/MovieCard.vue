@@ -1,13 +1,13 @@
 <template>
-  <div class="m-0 py-1 mx-xxl-0 col-xl-2 mx-xl-1 col-lg-3 col-sm-6">
+  <div :class="recommend ? 'm-0' : 'm-0 py-1 mx-xxl-0 col-xl-2 mx-xl-1 col-lg-3 col-sm-6'" :style="recommend ? 'width: 15%;' : ''">
      <!-- style="width: 18rem;"> -->
-    <router-link :to="{ name: 'MovieDetail', params: { pk: movie.id, user: user } }">
-      <div class="card bg-light" style="height: 100%;">
-        <img :src=movie.poster_path class="card-img" alt="...">
+    <router-link :to="{ name: 'MovieDetail', params: { pk: movie.id, user: user } }" :title="movie.title">
+      <div class="card bg-light" :style="recommend ? 'height:100%;' : 'height: 100%;'">
+        <img :src=movie.poster_path class="card-img" :alt="movie.title">
         <div class="card-img-overlay p-xl-2">
           <div class="position-relative">
-            <button v-show="isStyle" @click.prevent="dips" class="btn rounded-circle p-0 position-absolute top-0 end-0" style="background-color: #FFFFFF; width: 30px; height: 30px"><i class="fas fa-star" style="color: #FFE400;"></i></button>
-            <button v-show="!isStyle" @click.prevent="dips" class="btn rounded-circle p-0 position-absolute top-0 end-0" style="background-color: #FFFFFF; width: 30px; height: 30px"><i class="far fa-star" style="color: #D5D5D5;"></i></button>
+            <button v-show="isStyle" :key="`${isStyle}-1`" @click.prevent="dips" class="btn rounded-circle p-0 position-absolute top-0 end-0" style="background-color: #FFFFFF; width: 30px; height: 30px"><i class="fas fa-star" style="color: #FFE400;"></i></button>
+            <button v-show="!isStyle" :key="`${isStyle}-2`" @click.prevent="dips" class="btn rounded-circle p-0 position-absolute top-0 end-0" style="background-color: #FFFFFF; width: 30px; height: 30px"><i class="far fa-star" style="color: #D5D5D5;"></i></button>
           </div>
         </div>
         <!-- <router-link :to="{ name: 'MovieDetail', params: { pk: movie.id } }"> -->
@@ -32,6 +32,7 @@ export default {
   },
   props: {
     movie: Object,
+    recommend: Boolean,
     // title: '',
     // explanation: '',
   },
@@ -60,17 +61,26 @@ export default {
     isDip: function() {
       
     },
+    setToken: function () {
+      const token = localStorage.getItem('jwt')
+      const headers = {
+        Authorization: `JWT ${token}`
+      }
+      return headers
+    },
     dips: function() {
       axios({
         method: 'post',
         url: `http://127.0.0.1:8000/movies/${this.movie.id}/favorite/`,
-        headers: this.$store.getters.setToken,
+        headers: this.setToken(),
       })
       .then((res) => {
         console.log(res)
+        this.$store.dispatch('updateMovie', this.movie.id)
         this.isStyle = !this.isStyle
       })
       .catch((err) => {
+        console.log(err)
         if (err.response.status === 401) {
           this.$router.push({ name: 'Login', params: { needToLogin: true } })
         }
@@ -82,5 +92,13 @@ export default {
 </script>
 
 <style>
-
+div {
+  text-decoration: none;
+}
+div p {
+  /* 제목이 한 줄 이상이면 자르기 */
+  text-overflow:ellipsis; 
+  overflow: hidden; 
+  white-space: nowrap
+}
 </style>

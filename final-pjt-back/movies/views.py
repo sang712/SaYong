@@ -66,4 +66,4 @@ def favorite(request, movie_pk):
             logHistory(user, 20, movie=movie)
         users = movie.favorite_users.all()
         serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)

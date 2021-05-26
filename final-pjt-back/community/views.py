@@ -115,6 +115,7 @@ def rating_create(request, movie_pk):
 @permission_classes([IsAuthenticated])
 def rating_detail(request, rating_pk):
     rating = get_object_or_404(Rating, pk=rating_pk)
+    movie = get_object_or_404(Movie, pk=rating.movie)
     if request.method == 'GET':
         serializer = RatingSerializer(rating)
         return Response(serializer.data)
@@ -122,10 +123,10 @@ def rating_detail(request, rating_pk):
         serializer = RatingSerializer(rating, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            logHistory(request.user, 32, rating=rating)
+            logHistory(request.user, 32, rating=rating, movie=movie)
             return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'DELETE':
-        logHistory(request.user, 31, rating=rating)
+        logHistory(request.user, 31, rating=rating, movie=movie)
         rating.delete()
         data = {
             'delete':f'{rating_pk}번 평점이 삭제되었습니다.'
