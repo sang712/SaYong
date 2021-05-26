@@ -123,6 +123,15 @@ export default new Vuex.Store({
     //   commit("LOGOUT")
     // }
   },
+  getters: {
+    setToken: function () {
+      const token = localStorage.getItem('jwt')
+      const headers = {
+        Authorization: `JWT ${token}`
+      }
+      return headers
+    },
+  },
   modules: {
 
   }

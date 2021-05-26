@@ -63,7 +63,7 @@
       </nav>
     </div>
     <!-- 홈으로 이어짐 -->
-    <router-view/>
+    <router-view :key="$route.fullPath"/>
     <div id="footer" class="bg-secondary" style="height: 200px;">
       <div class="container">
         Footer

@@ -124,13 +124,21 @@ export default {
   },
   created: function (){
     // console.log(this.user)
-    axios.get(`http://127.0.0.1:8000/accounts/follow/${this.user.id}/`)
+    axios({
+      method: 'get',
+      url: `http://127.0.0.1:8000/accounts/follow/${this.user.id}/`,
+      headers: this.$store.getters.setToken,
+    })
       .then(res => {
         // console.log(res)
         this.followers = res.data
       })
       .catch(err => {console.log(err)})
-    axios.get(`http://127.0.0.1:8000/accounts/${this.user.id}/following/`)
+    axios({
+      method: 'get',
+      url: `http://127.0.0.1:8000/accounts/${this.user.id}/following/`,
+      headers: this.$store.getters.setToken,
+    })
       .then(res => {
         // console.log(res)
         this.followings = res.data

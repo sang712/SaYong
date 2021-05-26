@@ -60,18 +60,11 @@ export default {
     isDip: function() {
       
     },
-    setToken: function () {
-      const token = localStorage.getItem('jwt')
-      const headers = {
-        Authorization: `JWT ${token}`
-      }
-      return headers
-    },
     dips: function() {
       axios({
         method: 'post',
         url: `http://127.0.0.1:8000/movies/${this.movie.id}/favorite/`,
-        headers: this.setToken(),
+        headers: this.$store.getters.setToken,
       })
       .then((res) => {
         console.log(res)
