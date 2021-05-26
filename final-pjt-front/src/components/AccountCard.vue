@@ -1,7 +1,7 @@
 <template>
   <div class="container card my-3">
     <div class="card-body">
-      <!-- <ShortAccountCard :user="user" :followers="followers" :followings="followings"/> -->
+
       <ShortAccountCard :user="user"/>
       
       <div class="card">
@@ -108,38 +108,22 @@ export default {
   },
   props: {
     user: {},
+    pk: {}
   },
   data: function () { return {
     followers: [],
     followings: [],
   }},
   methods: {
-    printHistory: function (log) {
-      var message = '비공개'
-      if (log.is_public) {
-        message = log.is_public
-        if (log.following) {
-          message = message + log.following.username + '님을 팔로우했습니다'
-        } else if (log.movie) {
-          message = 'movie'+log.movie.title
-        } else if (log.rating) {
-          message = 'rating'+log.rating.rank
-        } else if (log.review) {
-          message = 'review'+log.review
-        } else if (log.comment) {
-          message = log.comment
-        }
-      }
-      return message
-      // return log
-    },
+
   },
   computed: mapState([
-    'movies', 'users'
+    'movies', //'users'
   ]),
   filters: {
   },
   created: function (){
+    // console.log(this.user)
     axios.get(`http://127.0.0.1:8000/accounts/follow/${this.user.id}/`)
       .then(res => {
         // console.log(res)

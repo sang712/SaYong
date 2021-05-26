@@ -6,7 +6,7 @@ import Signup from '@/views/Signup.vue'
 import Login from '@/views/Login.vue'
 import ReviewList from '@/views/ReviewList.vue'
 import MovieDetail from '@/components/MovieDetail.vue'
-import AccountCard from '@/components/AccountCard.vue'
+import AccountPK from '@/views/AccountPK.vue'
 
 Vue.use(VueRouter)
 
@@ -31,8 +31,9 @@ const routes = [
   },
   {
     path: '/account/:pk',
-    name: 'AccountCard',
-    component: AccountCard,
+    name: 'AccountPK',
+    component: AccountPK,
+    props: true,
   },
   {
     path: '/review',
@@ -55,7 +56,7 @@ const routes = [
     name: 'Login',
     component: Login,
   }
-  
+
 ]
 
 const router = new VueRouter({

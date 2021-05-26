@@ -35,7 +35,7 @@
                 <router-link :to="{ name: 'Account' }">모두의 프로필</router-link>
               </li>
               <li v-if="this.$store.state.isLogin" class="nav-item p-2">
-                <router-link :to="{ name: 'AccountCard', params: { pk: 1 }}" >내 프로필</router-link>
+                <router-link :to="{ name: 'AccountPK', params: { pk: 1 }}" >내 프로필</router-link>
               </li>
               <li v-else class="nav-item p-2">
                 <router-link :to="{ name: 'Signup' }">회원가입</router-link>
@@ -45,6 +45,9 @@
               </li>
               <li v-else class="nav-item p-2">
                 <router-link :to="{ name: 'Login' }">로그인</router-link>
+              </li>
+              <li class="nav-item p-2">
+                <a href="http://127.0.0.1:8000/admin">관리자</a>
               </li>
 
             </ul>

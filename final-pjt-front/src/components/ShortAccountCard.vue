@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h5 class="card-title" id="username">{{ user.username }}</h5>
+    <router-link :to="{ name: 'AccountPK', params: { pk: user.id }}">
+      <h5 class="card-title" id="username">{{ user.username }}</h5>
+    </router-link>
     <h6 class="card-subtitle mb-2 text-muted">이메일주소? 이름?</h6>
     <span class="card-text">이 사람을 설명하는 글</span>
 
