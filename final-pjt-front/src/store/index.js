@@ -9,7 +9,8 @@ export default new Vuex.Store({
     movies: [],
     users: [],
     genres: [],
-    user: [],
+    user: { favorite_movies: [] },
+    username: '',
     isLogin: false,
   },
   mutations: {
@@ -26,10 +27,15 @@ export default new Vuex.Store({
       })
       state.genres = genres
     },
+    GET_USER(state, user) {
+      state.user = user
+    },
     IS_LOGIN(state) {
       const token = localStorage.getItem('jwt')
       if (token) {
         state.isLogin = true
+      } else {
+        state.isLogin = false
       }
     },
     LOGIN(state) {
@@ -51,7 +57,14 @@ export default new Vuex.Store({
       })
     },
     getGenreList({commit}) {
-      axios.get('http://127.0.0.1:8000/movies/genres')
+      const token = localStorage.getItem('jwt')
+      axios({
+        method: 'get',
+        url: 'http://127.0.0.1:8000/movies/genres',
+        headers: {
+          Authorization: `JWT ${token}`
+        }
+      })
       .then(res => {
         const genreList = res.data
         commit("GET_GENRE_LIST", genreList)
@@ -61,7 +74,12 @@ export default new Vuex.Store({
       })
     },
     getUserList({commit}) {
-      axios.get('http://127.0.0.1:8000/accounts/index/')
+      const token = localStorage.getItem('jwt')
+      axios({
+        method: 'get',
+        url: 'http://127.0.0.1:8000/accounts/index/',
+        headers: {Authorization: `JWT ${token}`},
+      })
       .then(res => {
         const userList = res.data
         commit("GET_USER_LIST", userList)
@@ -69,6 +87,28 @@ export default new Vuex.Store({
       .catch(err => {
         console.log(err)
       })
+    },
+    getUser({commit}) {
+      const token = localStorage.getItem('jwt')
+      this.state.username = localStorage.getItem('username')
+      if (this.state.username) {
+        axios({
+          method: 'get',
+          url: `http://127.0.0.1:8000/accounts/${this.state.username}/`,
+          headers: {Authorization: `JWT ${token}`},
+        })
+        .then(res => {
+          console.log(res)
+          const user = res.data
+          console.log("getUser", this.state.username, user)
+          commit("GET_USER", user)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      } else {
+        console.log(this.state.username)
+      }
     },
     isLogin({commit}) {
       // 로그인 했는지 확인

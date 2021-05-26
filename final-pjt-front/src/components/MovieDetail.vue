@@ -16,7 +16,7 @@
             <span class="card-text">평균 점수 : {{ movie.vote_average }} | </span>
             <span>
               내 점수 : 
-              <StarRating :grade="0" :maxStars="10" :hascounter="true"/>
+              <StarRating :grade="gradeNumber" :maxStars="10" :hascounter="true" :movie="movie" :user="user"/>
             </span>
             <hr>
             <h4>줄거리</h4>
@@ -42,11 +42,12 @@ export default {
     return {
       movie: [],
       movieGenres: [],
-      ratingNumber: 0,
+      gradeNumber: 0,
     }
   },
   props: {
     'pk': Number,
+    'user': Object,
   },
   function: {
     
@@ -58,6 +59,12 @@ export default {
     this.movieGenres = this.movie.genres.map(genre => {
       return genre.name
     }).join('/')
+    const ratingList = this.movie.rating_set.filter(rating => {
+      return rating.user === this.user.id
+    })
+    this.gradeNumber = ratingList.reduce((acc, num) => {
+      return acc*0 + num.rank
+    }, 0)
   },
   computed: {
     ...mapState([

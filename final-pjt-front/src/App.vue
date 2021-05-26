@@ -46,10 +46,16 @@
               <li v-else class="nav-item p-2">
                 <router-link :to="{ name: 'Login' }">로그인</router-link>
               </li>
+<<<<<<< HEAD
               <li class="nav-item p-2">
                 <a href="http://127.0.0.1:8000/admin">관리자</a>
               </li>
 
+=======
+              <li>
+              {{ this.$store.state.username }}
+              </li>
+>>>>>>> 5cc7daa49f73ee740f8b6f44b882f744db3eca01
             </ul>
             <form class="d-flex">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -140,11 +146,16 @@ export default {
     this.$store.dispatch('getUserList')
     this.$store.dispatch('getGenreList')
     this.$store.dispatch('isLogin') // 로그인 상태확인
+    this.$store.dispatch('getUser') // 현재 로그인한 유저 정보 가져오기
+  },
+  computed: {
+
   },
   methods: {
     logout: function() {
       this.$store.dispatch('logout')
       localStorage.removeItem('jwt')
+      localStorage.removeItem('username')
       this.$router.push({ name: 'Login'})
       location.reload() // 강제 새로고침
     }

@@ -5,15 +5,16 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST, require_http_methods
-from rest_framework import serializers
+from rest_framework import status, serializers
 from rest_framework.serializers import Serializer
 from .models import History
-from rest_framework import status#, serializers
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import HistorySerializer, UserSerializer
 from movies.models import Movie
 from movies.serializers import MovieSerializer
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 # 회원가입/수정/삭제는 history에 추가할 것인가?
 
@@ -67,6 +68,8 @@ def login(request):
 
 
 @require_POST
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def logout(request):
     print(request.user)
     auth_logout(request)
@@ -77,6 +80,8 @@ def logout(request):
 #     return redirect('community:index')
 # history가 프로필이 아니라 다른 페이지에서 보이도록 수정해야함
 @api_view(['GET', 'PUT', 'DELETE'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def profile(request, username):
     # <int:username> 혹은 <str:username>, 즉 id나 계정명으로 접근할 수 있도록 하였다.
     if type(username) == type(str()):
@@ -104,6 +109,8 @@ def profile(request, username):
 
 # if request.user.is_authenticated:
 @api_view(['GET', 'POST'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def follow(request, user_pk):
     person = get_object_or_404(get_user_model(), pk=user_pk) # you
     user = request.user # me
@@ -125,6 +132,8 @@ def follow(request, user_pk):
 
 
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def history(request):
     histories = get_list_or_404(History)
     serializer = HistorySerializer(histories, many=True)
@@ -132,18 +141,24 @@ def history(request):
 
 
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def user_history(request, user_pk):
     user_history = get_list_or_404(History, user=user_pk)
     serializer = HistorySerializer(user_history, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def user_favorite(request, user_pk):
     user_favorite = get_list_or_404(Movie, favorite_users=user_pk)
     serializer = MovieSerializer(user_favorite, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
+@authentication_classes([JSONWebTokenAuthentication])
+@permission_classes([IsAuthenticated])
 def following(request, user_pk):
     person = get_object_or_404(get_user_model(), pk=user_pk) # you
     followings = person.followings.all()

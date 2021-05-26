@@ -16,12 +16,12 @@ class HistorySerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
-    rating_set = RatingSerializer(many=True)
-    review_set = ReviewSerializer(many=True)    # 작성한 리뷰
-    comment_set = CommentSerializer(many=True)
-    like_reviews = ReviewSerializer(many=True)  # 좋아요한 리뷰
-    favorite_movies = MovieSerializer(many=True)    # 찜한 영화
-    user_history = HistorySerializer(many=True)
+    rating_set = RatingSerializer(read_only=True, many=True)
+    review_set = ReviewSerializer(read_only=True, many=True)    # 작성한 리뷰
+    comment_set = CommentSerializer(read_only=True, many=True)
+    like_reviews = ReviewSerializer(read_only=True, many=True)  # 좋아요한 리뷰
+    favorite_movies = MovieSerializer(read_only=True, many=True)    # 찜한 영화
+    user_history = HistorySerializer(read_only=True, many=True)
     # followings = serializers.IntegerField()
 
     class Meta:

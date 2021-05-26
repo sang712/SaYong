@@ -11,19 +11,43 @@
   </span>
 </template>
 <script>
+import axios from 'axios'
 export default {
   name: 'StarRating',
-  props: ['grade', 'maxStars', 'hascounter'],
+  props: ['grade', 'maxStars', 'hascounter', 'movie', 'user'],
   data() {
     return {
       stars: this.grade
     }
   },
   methods: {
+    setToken: function () {
+      const token = localStorage.getItem('jwt')
+      const headers = {
+        Authorization: `JWT ${token}`
+      }
+      return headers
+    },
     rate(star) {
       if (typeof star === 'number' && star <= this.maxStars && star >= 0) {
         this.stars = this.stars === star ? star - 1 : star
       }
+      axios({
+        method: 'POST',
+        url: `http://127.0.0.1:8000/community/${this.movie.id}/rating/`,
+        headers: this.setToken(),
+        data: {
+          rank: star,
+          movie: this.movie.id,
+          user: this.user.id,
+        }
+      })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
   },
 }
