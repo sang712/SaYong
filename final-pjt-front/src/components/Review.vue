@@ -2,19 +2,68 @@
   <div>
     <div class="card m-3">
       <div class="card-header">
-        <div></div>
-        <span>{{ review.id }}</span> - 
-        <span>{{ review.title }}</span>
-        <button>리뷰 수정 삭제</button>
-        <button @click="likeReview" v-show="currentUserLikeThisReview">좋아요 취소</button>
-        <button @click="likeReview" v-show="!currentUserLikeThisReview">좋아요</button>
+        <router-link :to="{ name: 'Review', params: { pk: review.id } }">
+          <h3>{{ review.id }} | 
+          {{ review.title }}</h3>
+        </router-link>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModifyModal">
+          리뷰 수정
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="reviewModifyModal" tabindex="-1" aria-labelledby="reviewModifyModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="reviewModifyModalLabel">리뷰 수정</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                리뷰 수정 내용
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary">삭제</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reviewDeleteModal">
+          리뷰 삭제
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="reviewDeleteModal" tabindex="-1" aria-labelledby="reviewDeleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="reviewDeleteModalLabel">리뷰 삭제</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                리뷰를 삭제하시겠습니까?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-danger">삭제</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button @click="likeReview" v-show="currentUserLikeThisReview" class="btn"><i class="fas fa-thumbs-up"></i></button>
+        <button @click="likeReview" v-show="!currentUserLikeThisReview" class="btn"><i class="far fa-thumbs-up"></i></button>
       </div>
       <div class="card-body">
         <blockquote class="blockquote mb-0">
           <p>{{ review.content }}</p>
           <footer class="blockquote-footer">
-            <span>{{ user.username }}</span> on 
-            <cite title="movietitle">{{ movie.title }}</cite>
+            <router-link :to="{ name: 'AccountPK', params: { pk: user.id }}">
+                <cite>{{ user.username }}</cite>
+            </router-link>
+            on 
+            <router-link :to="{ name: 'MovieDetail', params: { pk: movie.id }}">
+              <cite title="movietitle">{{ movie.title }}</cite>
+            </router-link>
             <div v-show="!review.like_users.length == 0">좋아요: {{ review.like_users }}</div>
             <div>
               <span class="">작성: {{ review.created_at| date }}</span> | 
@@ -22,7 +71,9 @@
             </div>
             <h3>Comments</h3>
             <div v-for="(comment, idx) in review.comment_set" :key="idx" class="border">
-              <div class="">{{ $store.getters.getUserObjectById(comment.user).username }}</div>
+              <router-link :to="{ name: 'AccountPK', params: { pk: comment.user }}">
+                {{ $store.getters.getUserObjectById(comment.user).username }}
+              </router-link>
               <div class="">{{ comment.content }}</div>
               <div class="">{{ comment.created_at| date }}</div>
             </div>

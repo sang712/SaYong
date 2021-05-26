@@ -4,8 +4,8 @@
       <h5 class="card-title" id="username">{{ user.username }}</h5>
     </router-link>
     <h6 class="card-subtitle mb-2 text-muted">이메일주소? 이름?</h6>
-    <span class="card-text">이 사람을 설명하는 글</span>
-
+    <button class="btn btn-primary w-100" @click="follow" v-show="isCurrentUserFollowsUser">팔로우 취소</button>
+    <button class="btn btn-primary w-100" @click="follow" v-show="!isCurrentUserFollowsUser">팔로우</button>
     <div class="my-1 card-group d-flex justify-content-center">
       <div class="card w-100">
         <div class="card-body">
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 
 export default {
   name: 'ShortAccountCard',
@@ -55,6 +55,12 @@ export default {
     // followers: Array,
     // followings: Array,
   }},
+  computed: {
+    isCurrentUserFollowsUser() {
+      // console.log(this.user.followers, this.$store.state.user.id)
+      return this.user.followers.some(follower => follower.id === this.$store.state.user.id)
+    },
+  },
   // created: function (){
   //   axios.get(`http://127.0.0.1:8000/accounts/follow/${this.user.id}/`)
   //     .then(res => {
@@ -69,6 +75,19 @@ export default {
   //     })
   //     .catch(err => {console.log(err)})
   // },
+  methods: {
+    follow: function () {
+      axios({
+        method: 'POST',
+        url: `http://127.0.0.1:8000/accounts/follow/${this.user.id}/`,
+        headers: this.$store.getters.setToken,
+      })
+        .then(res=>{
+          this.user.followers = res.data
+        })
+        .catch(err=>{console.log(err)})
+    },
+  },
 }
 </script>
 
