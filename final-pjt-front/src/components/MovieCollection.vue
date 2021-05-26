@@ -2,13 +2,13 @@
   <div>
     <div v-if="recommend" class="collection container mb-5">
       <h3 class="collectionTitle">{{ collectionTitle }}</h3>
-      <div class="d-block" style="position: absolute; left: 0px; width: 100%; height: 317px; background: #020715;"></div>
+      <div class="d-block" style="position: absolute; left: 0px; width: 100%; height: 317px;; background: #020715;"></div>
       <div id="carouselExampleFade" class="carousel slide" data-bs-ride="carousel" data-bs-touch="true">
         <div class="carousel-inner">
-          <div style="overflow-x: scroll;">
+          <div style="overflow-x: scroll; overflow-y: hidden;">
             <div class="d-flex flex-nowrap row">
             <!-- <div :class="num==1 ?'carousel-item active d-flex flex-nowrap row' : 'carousel-item d-flex flex-nowrap row'" style="overflow-x: visible;" v-for="num in Math.ceil(movies.length/6)" :key=num> -->
-              <MovieCard v-for="(movie, idx) in movies" :key="idx" :movie="movies[idx]" :recommend="true" />
+              <MovieCard class="p-0" v-for="(movie, idx) in movies" :key="idx" :movie="movies[idx]" :recommend="true" />
               <!-- <MovieCard v-for="(movie, idx) in movies.slice(6*(num-1), 6*num + 1)" :key="idx" :movie="movies[idx]" :recommend="true" /> -->
             <!-- </div> -->
             </div>

@@ -3,7 +3,7 @@
     <div id="nav" class="bg-light">
       <!-- <router-link to="/">Home</router-link> | -->
       <!-- <router-link to="/about">About</router-link> -->
-      <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
+      <nav class="navbar navbar-expand-lg navbar-light bg-dark d-flex justify-content-between">
         <div class="container-fluid">
           <!-- <a class="navbar-brand" href="#">Navbar</a> -->
           <div class="p-2">
@@ -184,12 +184,18 @@ nav {
   background: #020715;
 }
 
+li a {
+    text-decoration: none;
+}
+
 #nav a {
   font-weight: bold;
-  color: #020715;
+  color: #f7f7f7;
+  text-decoration: none;
+  font-weight: normal;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #00B74A;
 }
 </style>

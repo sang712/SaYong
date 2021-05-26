@@ -1,17 +1,17 @@
 <template>
-  <div :class="recommend ? 'm-0' : 'm-0 py-1 mx-xxl-0 col-xl-2 mx-xl-1 col-lg-3 col-sm-6'" :style="recommend ? 'width: 15%;' : ''">
+  <div :class="recommend ? 'mx-2' : 'm-0 py-1 mx-xxl-0 col-xl-2 mx-xl-1 col-lg-3 col-sm-6'" :style="recommend ? 'width: 15%;' : ''">
      <!-- style="width: 18rem;"> -->
-    <router-link :to="{ name: 'MovieDetail', params: { pk: movie.id, user: user } }" :title="movie.title">
-      <div class="card bg-light" :style="recommend ? 'height:100%;' : 'height: 100%;'">
-        <img :src=movie.poster_path class="card-img" :alt="movie.title">
-        <div class="card-img-overlay p-xl-2">
+    <router-link class="text-decoration-none p-0" :to="{ name: 'MovieDetail', params: { pk: movie.id, user: user } }" :title="movie.title">
+      <div class="card bg-light" :style="recommend ? 'width: 172px; height: 298px;' : ''" >
+        <img :src=movie.poster_path class="card-img" :alt="movie.title" :style="recommend ? 'width: 172px; height: 258px;' : ''">
+        <div class="card-img-overlay" :style="recommend ? 'width: 172px; height: 298px;' : ''">
           <div class="position-relative">
             <button v-show="isStyle" :key="`${isStyle}-1`" @click.prevent="dips" class="btn rounded-circle p-0 position-absolute top-0 end-0" style="background-color: #FFFFFF; width: 30px; height: 30px"><i class="fas fa-star" style="color: #FFE400;"></i></button>
             <button v-show="!isStyle" :key="`${isStyle}-2`" @click.prevent="dips" class="btn rounded-circle p-0 position-absolute top-0 end-0" style="background-color: #FFFFFF; width: 30px; height: 30px"><i class="far fa-star" style="color: #D5D5D5;"></i></button>
           </div>
         </div>
         <!-- <router-link :to="{ name: 'MovieDetail', params: { pk: movie.id } }"> -->
-          <p class="card-title m-2 mx-3 text-start">{{ movie.title }}</p>
+          <p class="card-title m-2 mx-2 text-center text-dark">{{ movie.title }}</p>
         <!-- </router-link> -->
       </div>
     </router-link>
@@ -92,13 +92,11 @@ export default {
 </script>
 
 <style>
-div {
-  text-decoration: none;
-}
-div p {
+.card-title {
   /* 제목이 한 줄 이상이면 자르기 */
   text-overflow:ellipsis; 
   overflow: hidden; 
   white-space: nowrap
 }
+
 </style>
