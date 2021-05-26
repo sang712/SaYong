@@ -103,7 +103,10 @@ def rating_create(request, movie_pk):
     serializer = RatingSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         rating = serializer.save(user=request.user, movie=movie)
-        logHistory(request.user, 30, rating=rating, movie=movie)
+        if rating.rank: # 별을 다시 클릭하는 경우를 평점 취소로 받아 들여서 rank를 0을 보내줌
+            logHistory(request.user, 30, rating=rating, movie=movie)
+        else: # 0을 보내줄 때는 action_type을 31로
+            logHistory(request.user, 31, rating=rating, movie=movie)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
