@@ -108,16 +108,16 @@ export default new Vuex.Store({
           headers: {Authorization: `JWT ${token}`},
         })
         .then(res => {
-          console.log(res)
+          // console.log(res)
           const user = res.data
-          console.log("getUser", this.state.username, user)
+          // console.log("getUser", this.state.username, user)
           commit("GET_USER", user)
         })
         .catch(err => {
           console.log(err)
         })
       } else {
-        console.log(this.state.username)
+        // console.log(this.state.username)
       }
     },
     updateMovie({commit}, movie_id) {
@@ -155,6 +155,10 @@ export default new Vuex.Store({
       }
       return headers
     },
+    // https://vuex.vuejs.org/guide/getters.html#method-style-access
+    getUserObjectById: (state) => (id) => {
+      return state.users.find(user => user.id === id)
+    }
   },
   modules: {
 
