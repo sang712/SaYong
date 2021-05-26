@@ -28,7 +28,7 @@ export default {
       headers: this.$store.getters.setToken,
     })
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         this.reviews = res.data
       })
   },
