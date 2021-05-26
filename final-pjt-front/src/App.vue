@@ -46,16 +46,13 @@
               <li v-else class="nav-item p-2">
                 <router-link :to="{ name: 'Login' }">로그인</router-link>
               </li>
-<<<<<<< HEAD
               <li class="nav-item p-2">
                 <a href="http://127.0.0.1:8000/admin">관리자</a>
               </li>
 
-=======
               <li>
               {{ this.$store.state.username }}
               </li>
->>>>>>> 5cc7daa49f73ee740f8b6f44b882f744db3eca01
             </ul>
             <form class="d-flex">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
