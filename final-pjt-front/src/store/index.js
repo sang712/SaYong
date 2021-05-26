@@ -30,6 +30,16 @@ export default new Vuex.Store({
     GET_USER(state, user) {
       state.user = user
     },
+    UPDATE_MOVIE(state, movie) {
+      const updatedMovieIdx = state.movies.findIndex(formerMovie => {
+        console.log(movie.id, formerMovie.id)
+        return movie.id === formerMovie.id
+      })
+      console.log("바뀔 영화 idx",updatedMovieIdx)
+      console.log(state.movies[updatedMovieIdx])
+      state.movies.splice(updatedMovieIdx, 1, movie)
+      console.log(state.movies[updatedMovieIdx])
+    },
     IS_LOGIN(state) {
       const token = localStorage.getItem('jwt')
       if (token) {
@@ -108,6 +118,20 @@ export default new Vuex.Store({
         })
       } else {
         console.log(this.state.username)
+      }
+    },
+    updateMovie({commit}, movie_id) {
+      const token = localStorage.getItem('jwt')
+      if (this.state.username) {
+        axios({
+          method: 'get',
+          url: `http://127.0.0.1:8000/movies/${movie_id}/`,
+          headers: {Authorization: `JWT ${token}`},
+        })
+        .then(res => {
+          const movie = res.data
+          commit("UPDATE_MOVIE", movie)
+        })
       }
     },
     isLogin({commit}) {
