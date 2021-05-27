@@ -23,6 +23,18 @@
 
 
 
+### 프로젝트 구조
+
+* back
+
+![back](README.assets/back.JPG)
+
+* front
+
+![front](README.assets/front.JPG)
+
+
+
 ## i. 팀원 정보 및 업무 분담 내역
 
 | 역할 | 이름       | 업무 내용                                                    |
