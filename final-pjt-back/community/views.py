@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_list_or_404, render, redirect, get_object_or_404
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from .models import Review, Comment
@@ -148,10 +149,11 @@ def comment_index(request):
 @api_view(['POST'])
 def comment_create(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
+    user = get_object_or_404(get_user_model(), pk=request.data['user'])
     serializer = CommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
-        comment = serializer.save(review=review, user=request.user)
-        logHistory(request.user, 30, comment=comment)
+        comment = serializer.save(review=review, user=user)
+        logHistory(user, 30, comment=comment)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -160,7 +162,9 @@ def comment_create(request, review_pk):
 @permission_classes([IsAuthenticated])
 @api_view(['GET','PUT','DELETE'])
 def comment_detail(request, comment_pk):
+    print('데이터', request.data, request.user)
     comment = get_object_or_404(Comment, pk=comment_pk)
+    user = get_object_or_404(get_user_model(), pk=request.data['user'])
     if request.method == 'GET':
         serializer = CommentSerializer(comment)
         return Response(serializer.data)
@@ -171,7 +175,7 @@ def comment_detail(request, comment_pk):
             logHistory(request.user, 32, comment=comment)
             return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'DELETE':
-        logHistory(request.user, 31, comment=comment)
+        logHistory(user, 31, comment=comment)
         comment.delete()
         data = {
             'delete':f'{comment_pk}번 평점이 삭제되었습니다.'
