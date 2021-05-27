@@ -57,7 +57,7 @@ export default {
   }},
   computed: {
     isCurrentUserFollowsUser() {
-      console.log(this.user.followers, this.$store.state.user.id)
+      // console.log(this.user.followers, this.$store.state.user.id)
       if (this.user.followers.length) {
         return this.user.followers.some(follower => follower.id === this.$store.state.user.id)
       }

@@ -70,6 +70,7 @@
       </div>
       <div class="card-body">
         <blockquote class="blockquote mb-0">
+          <!-- <MovieCard class="p-0" :movie="movie" :recommend="false"/> -->
           <p>{{ review.content }}</p>
           <br>
           <footer class="blockquote-footer">

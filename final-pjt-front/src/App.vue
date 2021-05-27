@@ -9,8 +9,8 @@
           <div class="p-2">
             <router-link to="/">메인페이지</router-link>
           </div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+          <button class="navbar-toggler btn-outline-success" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon" style="color: #00B74A;"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -20,20 +20,10 @@
               <li class="nav-item p-2">
                 <router-link :to="{ name: 'ReviewList' }">리뷰페이지</router-link>
               </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-              <li class="nav-item p-2">
+              
+              <!-- <li class="nav-item p-2">
                 <router-link :to="{ name: 'Account' }">모두의 프로필</router-link>
-              </li>
+              </li> -->
               <li v-if="this.$store.state.isLogin" class="nav-item p-2">
                 <router-link :to="{ name: 'AccountPK', params: { pk: this.$store.state.user.id }}" >내 프로필</router-link>
               </li>
@@ -46,12 +36,11 @@
               <li v-else class="nav-item p-2">
                 <router-link :to="{ name: 'Login' }">로그인</router-link>
               </li>
-              <li class="nav-item p-2">
+              <!-- <li class="nav-item p-2">
                 <a href="http://127.0.0.1:8000/admin">관리자</a>
-              </li>
-
-              <li>
-              {{ this.$store.state.username }}
+              </li> -->
+              <li class="nav-item p-2"> 
+                <p class="m-0" style="color: #f7f7f7;">{{ this.$store.state.username }}</p>
               </li>
             </ul>
             <form class="d-flex">
@@ -184,6 +173,9 @@ export default {
 
 nav {
   background: #020715;
+}
+nav button {
+  color: #00B74A;
 }
 
 li a {
