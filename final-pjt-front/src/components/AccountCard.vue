@@ -27,7 +27,7 @@
                     <th scope="row">{{ rating.id }}</th>
                     <td>{{ $store.getters.getUserObjectById(rating.user).username }}</td>
                     <td>{{ rating.rank }}</td>
-                    <td>{{ rating.created_at }}</td>
+                    <td>{{ $store.getters.displayDateTime(rating.created_at) }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -49,8 +49,8 @@
                     <th scope="col">id</th>
                     <th scope="col">title</th>
                     <th scope="col">user</th>
-                    <th scope="col">comment_set.length</th>
-                    <th scope="col">like_users.length</th>
+                    <th scope="col">comments</th>
+                    <th scope="col">likes</th>
                     <th scope="col">created_at</th>
                   </tr>
                 </thead>
@@ -61,7 +61,7 @@
                     <td>{{ $store.getters.getUserObjectById(review.user).username }}</td>
                     <td>{{ review.comment_set.length }}</td>
                     <td>{{ review.like_users.length }}</td>
-                    <td>{{ review.created_at }}</td>
+                    <td>{{ $store.getters.displayDateTime(review.created_at) }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -94,8 +94,8 @@
                     <td>{{ comment.review }}</td>
                     <td>{{ $store.getters.getUserObjectById(comment.user).username }}</td>
                     <td>{{ comment.content }}</td>
-                    <td>{{ comment.created_at }}</td>
-                    <td>{{ comment.updated_at }}</td>
+                    <td>{{ $store.getters.displayDateTime(comment.created_at) }}</td>
+                    <td>{{ $store.getters.displayDateTime(comment.updated_at) }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -105,20 +105,20 @@
         <div class="accordion-item">
           <h2 class="accordion-header" id="panelsStayOpen-headingFour">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="true" aria-controls="panelsStayOpen-collapseFour">
-              Like Reviews
+              좋아요한 리뷰
             </button>
           </h2>
           <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingFour">
             <div class="accordion-body">
-              <div class="table" v-if="!user.like_reviews.length">좋아하는 리뷰가 없습니다</div>
+              <div class="table" v-if="!user.like_reviews.length">좋아요한 리뷰가 없습니다</div>
               <table class="table" v-else>
                 <thead>
                   <tr>
                     <th scope="col">id</th>
                     <th scope="col">title</th>
                     <th scope="col">user</th>
-                    <th scope="col">comment_set.length</th>
-                    <th scope="col">like_users.length</th>
+                    <th scope="col">comments</th>
+                    <th scope="col">likes</th>
                     <th scope="col">created_at</th>
                   </tr>
                 </thead>
@@ -129,7 +129,7 @@
                     <td>{{ $store.getters.getUserObjectById(review.user).username }}</td>
                     <td>{{ review.comment_set.length }}</td>
                     <td>{{ review.like_users.length }}</td>
-                    <td>{{ review.created_at }}</td>
+                    <td>{{ $store.getters.displayDateTime(review.created_at) }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -139,7 +139,7 @@
         <div class="accordion-item">
           <h2 class="accordion-header" id="panelsStayOpen-headingFive">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="true" aria-controls="panelsStayOpen-collapseFive">
-              Favorite Movies
+              찜한 영화
             </button>
           </h2>
           <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingFive">
@@ -150,8 +150,8 @@
                   <tr>
                     <th scope="col">id</th>
                     <th scope="col">title</th>
-                    <th scope="col">rating_set.length</th>
-                    <th scope="col">favorite_users.length</th>
+                    <th scope="col">ratings</th>
+                    <th scope="col">favorites</th>
                     <th scope="col">release_date</th>
                   </tr>
                 </thead>
@@ -171,12 +171,12 @@
         <div class="accordion-item">
           <h2 class="accordion-header" id="panelsStayOpen-headingSix">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="true" aria-controls="panelsStayOpen-collapseSix">
-              User History
+              활동이력
             </button>
           </h2>
           <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingSix">
             <div class="accordion-body">
-              <div class="table" v-if="!user.user_history.length">활동내역이 없습니다</div>
+              <div class="table" v-if="!user.user_history.length">활동이력이 없습니다</div>
               <table class="table" v-else>
                 <thead>
                   <tr>
