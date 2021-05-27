@@ -40,13 +40,9 @@ export default new Vuex.Store({
     },
     UPDATE_MOVIE(state, movie) {
       const updatedMovieIdx = state.movies.findIndex(formerMovie => {
-        console.log(movie.id, formerMovie.id)
         return movie.id === formerMovie.id
       })
-      console.log("바뀔 영화 idx",updatedMovieIdx)
-      console.log(state.movies[updatedMovieIdx])
       state.movies.splice(updatedMovieIdx, 1, movie)
-      console.log(state.movies[updatedMovieIdx])
     },
     IS_LOGIN(state) {
       const token = localStorage.getItem('jwt')

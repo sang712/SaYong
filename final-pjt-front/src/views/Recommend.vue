@@ -73,45 +73,46 @@ export default {
     this.familyCollection.movies = _.shuffle(this.movies.filter(movie => {return movie.genres.some(genre=>{return genre.id === 10751})}))
     this.warCollection.movies = _.shuffle(this.movies.filter(movie => {return movie.genres.some(genre=>{return genre.id === 10752})}))
     this.tvCollection.movies = _.shuffle(this.movies.filter(movie => {return movie.genres.some(genre=>{return genre.id === 10770})}))
-    const counter = [
-      {'id': 12, count: 0},
-      {'id': 14, count: 0},
-      {'id': 16, count: 0},
-      {'id': 18, count: 0},
-      {'id': 27, count: 0},
-      {'id': 28, count: 0},
-      {'id': 35, count: 0},
-      {'id': 36, count: 0},
-      {'id': 37, count: 0},
-      {'id': 53, count: 0},
-      {'id': 80, count: 0},
-      {'id': 99, count: 0},
-      {'id': 878, count: 0},
-      {'id': 9648, count: 0},
-      {'id': 10402, count: 0},
-      {'id': 10749, count: 0},
-      {'id': 10751, count: 0},
-      {'id': 10752, count: 0},
-      {'id': 10770, count: 0},]
-    this.user.favorite_movies.forEach(movie => {
-      movie.genres.forEach(genre => {
-        counter.find(genre2 => {
-          return genre2.id == genre.id}).count += 1
+    if (this.user.favorite_movies.length){
+      const counter = [
+        {'id': 12, count: 0},
+        {'id': 14, count: 0},
+        {'id': 16, count: 0},
+        {'id': 18, count: 0},
+        {'id': 27, count: 0},
+        {'id': 28, count: 0},
+        {'id': 35, count: 0},
+        {'id': 36, count: 0},
+        {'id': 37, count: 0},
+        {'id': 53, count: 0},
+        {'id': 80, count: 0},
+        {'id': 99, count: 0},
+        {'id': 878, count: 0},
+        {'id': 9648, count: 0},
+        {'id': 10402, count: 0},
+        {'id': 10749, count: 0},
+        {'id': 10751, count: 0},
+        {'id': 10752, count: 0},
+        {'id': 10770, count: 0},]
+      this.user.favorite_movies.forEach(movie => {
+        movie.genres.forEach(genre => {
+          counter.find(genre2 => {
+            return genre2.id == genre.id}).count += 1
+        })
       })
-    })
-    let theGenre = counter.reduce((prev, curr) => {
-      if (prev.count < curr.count) {
-        return curr
-      }
-      return prev
-    })
-    console.log(theGenre)
-    this.recommendCollection.movies = _.shuffle(this.movies.filter(movie => {return movie.genres.some(genre=>{return genre.id === theGenre.id})}))
-      this.user.favorite_movies.forEach(favorite_movie => {
-        _.remove(this.recommendCollection.movies, movie => {
-          return movie.id === favorite_movie.id
+      let theGenre = counter.reduce((prev, curr) => {
+        if (prev.count < curr.count) {
+          return curr
+        }
+        return prev
       })
-    })
+      this.recommendCollection.movies = _.shuffle(this.movies.filter(movie => {return movie.genres.some(genre=>{return genre.id === theGenre.id})}))
+        this.user.favorite_movies.forEach(favorite_movie => {
+          _.remove(this.recommendCollection.movies, movie => {
+            return movie.id === favorite_movie.id
+        })
+      })
+    }
   },
 }
 

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <router-link :to="{ name: 'AccountPK', params: { pk: user.id }}">
-      <h1 class="card-title fw-bold text-primary" id="username">{{ user.username }}</h1>
+    <router-link class="text-decoration-none" :to="{ name: 'AccountPK', params: { pk: user.id }}">
+      <h5 class="card-title fw-bold text-primary" id="username">{{ user.username | capitalize }}</h5>
     </router-link>
     <h6 class="card-subtitle mb-2 text-muted">이메일주소? 이름?</h6>
     <button class="btn btn-primary w-100" @click="follow" v-show="isCurrentUserFollowsUser">팔로우 취소</button>
@@ -92,6 +92,13 @@ export default {
         })
         .catch(err=>{console.log(err)})
     },
+  },
+  filters: {
+  capitalize: function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+    }
   },
 }
 </script>
