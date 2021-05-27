@@ -199,6 +199,9 @@ export default new Vuex.Store({
     getRatingObjectById: (state) => (id) => {
       return state.ratings.find(rating => rating.id === id)
     },
+    getReviewObjectById: (state) => (id) => {
+      return state.reviews.find(review => review.id === id)
+    },
     displayDateTime: () => (datetime) => {
       return datetime.substring(0,10) +' '+ datetime.substring(11,16)
     },

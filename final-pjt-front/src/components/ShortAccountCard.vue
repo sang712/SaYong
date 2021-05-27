@@ -3,7 +3,7 @@
     <router-link class="text-decoration-none" :to="{ name: 'AccountPK', params: { pk: user.id }}">
       <h5 class="card-title fw-bold text-primary" id="username">{{ user.username | capitalize }}</h5>
     </router-link>
-    <h6 class="card-subtitle mb-2 text-muted">이메일주소? 이름?</h6>
+    <!-- <h6 class="card-subtitle mb-2 text-muted">이메일주소? 이름?</h6> -->
     <button class="btn btn-primary w-100" @click="follow" v-show="isCurrentUserFollowsUser">팔로우 취소</button>
     <button class="btn btn-primary w-100" @click="follow" v-show="!isCurrentUserFollowsUser">팔로우</button>
     <div class="my-1 card-group d-flex justify-content-center">
