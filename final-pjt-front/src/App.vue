@@ -21,9 +21,9 @@
                 <router-link :to="{ name: 'ReviewList' }">리뷰페이지</router-link>
               </li>
               
-              <!-- <li class="nav-item p-2">
+              <li v-if="this.$store.state.user.is_superuser" class="nav-item p-2">
                 <router-link :to="{ name: 'Account' }">모두의 프로필</router-link>
-              </li> -->
+              </li>
               <li v-if="this.$store.state.isLogin" class="nav-item p-2">
                 <router-link :to="{ name: 'AccountPK', params: { pk: this.$store.state.user.id }}" >내 프로필</router-link>
               </li>
@@ -36,11 +36,11 @@
               <li v-else class="nav-item p-2">
                 <router-link :to="{ name: 'Login' }">로그인</router-link>
               </li>
-              <!-- <li class="nav-item p-2">
+              <li  v-if="this.$store.state.user.is_superuser" class="nav-item p-2">
                 <a href="http://127.0.0.1:8000/admin">관리자</a>
-              </li> -->
-              <li class="nav-item p-2"> 
-                <p class="m-0" style="color: #f7f7f7;">{{ this.$store.state.username }}</p>
+              </li>
+              <li v-show="this.$store.state.isLogin" class="nav-item p-2"> 
+                <p class="m-0" style="color: #f7f7f7;">{{ this.$store.state.username| capitalize }}님 환영합니다.</p>
               </li>
             </ul>
             <form class="d-flex">
@@ -152,6 +152,13 @@ export default {
       location.reload() // 강제 새로고침
     }
   },
+  filters: {
+    capitalize: function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+    },
+  }
 }
 </script>
 
