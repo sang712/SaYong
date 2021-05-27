@@ -7,7 +7,7 @@
           {{ review.title }}</h3>
         </router-link>
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModifyModal">
+        <button v-if="isSameUser" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModifyModal">
           리뷰 수정
         </button>
         <!-- Modal -->
@@ -19,17 +19,26 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                리뷰 수정 내용
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary">삭제</button>
-              </div>
+                  <div class="loginForm d-flex justify-content-center row">
+                    <div class="input-group position-relative col-12">
+                      <div for="title" class="align-middle">리뷰 제목: </div>
+                      <input type="text" id="title" v-model="review.title" class="mr-2 form-control" style="width: auto;">
+                    </div>
+                    <div class="input-group position-relative col-12">
+                      <div for="content" class="align-middle">내용: </div>
+                      <textarea type="content" id="password" v-model="review.content" class="form-control" style="width: auto;" rows="5"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                  <button @click="reviewUpdate()" data-bs-dismiss="modal" class="btn btn-primary">수정</button>
+                </div>
             </div>
           </div>
         </div>
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reviewDeleteModal">
+        <button v-if="isSameUser" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reviewDeleteModal">
           리뷰 삭제
         </button>
         <!-- Modal -->
@@ -45,7 +54,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-danger">삭제</button>
+                <button type="button" @click="reviewDelete()" data-bs-dismiss="modal" class="btn btn-danger">삭제</button>
               </div>
             </div>
           </div>
@@ -126,6 +135,12 @@ export default {
       movie: {},
       user: {}, // 이 글을 쓴 사람, 작성자
       currentUser: this.$store.state.user,  // 현재 접속자
+      reviewUpdating: {
+        title: null,
+        movie: this.review.movie,
+        content: null,
+        user: this.review.user,
+      },
     }
   },
   props: {
@@ -138,6 +153,9 @@ export default {
       // 유저 기준 접근
       // return this.currentUser.like_reviews.includes(...)
     },
+    isSameUser() {
+      return this.user.id === this.currentUser.id
+    }
   },
   methods: {
     likeReview: function () {
@@ -152,6 +170,41 @@ export default {
         })
         .catch(err => {console.log(err)})
     },
+    reviewUpdate: function() {
+      this.reviewUpdating.title = this.review.title
+      this.reviewUpdating.content = this.review.content
+      axios({
+        method: 'PUT',
+        url: `http://127.0.0.1:8000/community/review/${this.review.id}/`,
+        data: this.reviewUpdating,
+        headers: this.$store.getters.setToken,
+      })
+      .then(res => {
+        console.log(res)
+        this.$router.push({ name: 'Review', params: {review: res.data, pk: res.data.id}})
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
+    },
+    reviewDelete: function() {
+      axios({
+        method: 'DELETE',
+        url: `http://127.0.0.1:8000/community/review/${this.review.id}/`,
+        headers: this.$store.getters.setToken,
+      })
+      .then(res => {
+        console.log(res)
+        // 페이지 새로고침에서 문제가 발생하니까 홈에 들렀다 오기
+        this.$router.push({ name: 'Home'})
+        .then(()=>{
+          this.$router.push({ name: 'ReviewList'})
+        })
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
+    }
   },
   created: function () {
     axios({
