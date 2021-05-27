@@ -77,6 +77,8 @@ export default {
       .then((res) => {
         console.log(res)
         this.$store.dispatch('updateMovie', this.movie.id)
+        this.$store.getters.getMovieObjectById(this.movie.id)
+        // this.movieRerender()
         this.isStyle = !this.isStyle
       })
       .catch((err) => {
@@ -86,8 +88,21 @@ export default {
         }
         console.log(err.response)
       })
-    }
-  }
+    },
+    // movieRerender() {
+    //   axios({
+    //     method: 'get',
+    //     url: `http://127.0.0.1:8000/movies/${this.movie.id}`,
+    //     headers: this.$store.getters.setToken,
+    //   })
+    //   .then(res => {
+    //     this.movie = res.data
+    //   })
+    //   .catch(err => {
+    //     console.log(err)
+    //   })
+    // }
+  },
 }
 </script>
 

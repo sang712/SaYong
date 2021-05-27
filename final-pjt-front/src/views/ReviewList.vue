@@ -1,6 +1,6 @@
 <template>
   <div class="reviewList">
-    <h2>This is a review page.</h2>
+    <h1 class="pageTitle">지금까지 작성된 리뷰를 확인해보세요!</h1>
 
     <Review v-for="(review, idx) in reviews" :review="review" :key="idx"/>
   </div>
@@ -41,5 +41,7 @@ export default {
 </script>
 
 <style>
-
+.pageTitle {
+  margin-top: 15px;
+}
 </style>
