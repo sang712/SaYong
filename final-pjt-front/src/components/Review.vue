@@ -2,7 +2,7 @@
   <div>
     <div class="card m-3">
       <div class="card-header">
-        <router-link :to="{ name: 'Review', params: { pk: review.id } }">
+        <router-link class="text-decoration-none" :to="{ name: 'Review', params: { pk: review.id } }">
           <h3>{{ review.id }} | 
           {{ review.title }}</h3>
         </router-link>
@@ -57,11 +57,11 @@
         <blockquote class="blockquote mb-0">
           <p>{{ review.content }}</p>
           <footer class="blockquote-footer">
-            <router-link :to="{ name: 'AccountPK', params: { pk: user.id }}">
-                <cite>{{ user.username }}</cite>
+            <router-link class="text-decoration-none" :to="{ name: 'AccountPK', params: { pk: user.id }}">
+                <cite>{{ user.username | capitalize }}</cite>
             </router-link>
             on 
-            <router-link :to="{ name: 'MovieDetail', params: { pk: movie.id }}">
+            <router-link class="text-decoration-none" :to="{ name: 'MovieDetail', params: { pk: movie.id }}">
               <cite title="movietitle">{{ movie.title }}</cite>
             </router-link>
             <div v-show="!review.like_users.length == 0">좋아요: {{ review.like_users }}</div>
@@ -71,7 +71,7 @@
             </div>
             <h3>Comments</h3>
             <div v-for="(comment, idx) in review.comment_set" :key="idx" class="border">
-              <router-link :to="{ name: 'AccountPK', params: { pk: comment.user }}">
+              <router-link class="text-decoration-none" :to="{ name: 'AccountPK', params: { pk: comment.user }}">
                 {{ $store.getters.getUserObjectById(comment.user).username }}
               </router-link>
               <div class="">{{ comment.content }}</div>
@@ -156,16 +156,24 @@ export default {
       // console.log(typeof value)
       return value.substring(0,10) + " " + value.substring(11,13) + "시 " + value.substring(14,16) + "분"
     },
-
+    capitalize: function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+    },
     // getMovie: function (value) {
     //   // console.log(value)
     //   return this.movie
     // },
   },
+  
+  
 
 }
 </script>
 
 <style>
-
+.text-decoration-none{
+  color: #020715;
+}
 </style>

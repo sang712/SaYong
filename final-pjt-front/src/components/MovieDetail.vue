@@ -118,15 +118,24 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="reviewAddModalLabel">리뷰 수정</h5>
+                  <h5 class="modal-title" id="reviewAddModalLabel">리뷰 작성</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  리뷰 작성 내용
+                  <div class="loginForm d-flex justify-content-center row">
+                    <div class="input-group position-relative col-12">
+                      <div for="title" class="align-middle">리뷰 제목: </div>
+                      <input type="text" id="title" v-model="reviewCreating.title" class="mr-2 form-control" style="width: auto;">
+                    </div>
+                    <div class="input-group position-relative col-12">
+                      <div for="content" class="align-middle">내용: </div>
+                      <textarea type="content" id="password" v-model="reviewCreating.content" class="form-control" style="width: auto;" rows="5"/>
+                    </div>
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                  <button type="button" class="btn btn-primary">삭제</button>
+                  <button @click="reviewCreate()" data-bs-dismiss="modal" class="btn btn-primary">등록</button>
                 </div>
               </div>
             </div>
@@ -138,7 +147,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import axios from 'axios'
+import { mapGetters, mapState } from 'vuex'
 import StarRating from '@/components/StarRating.vue'
 import ShortAccountCard from '@/components/ShortAccountCard.vue'
 
@@ -153,14 +163,37 @@ export default {
       movie: [],
       movieGenres: [],
       gradeNumber: 0,
+      reviewCreating: {
+        title: null,
+        movie: null,
+        content: null,
+        user: null,
+      },
+      message: '',
     }
   },
   props: {
     'pk': Number,
     'user': Object,
   },
-  function: {
-    
+  methods: {
+    reviewCreate: function() {
+      this.reviewCreating.user = this.user.id
+      this.reviewCreating.movie = this.pk
+      axios({
+        method: 'POST',
+        url: `http://127.0.0.1:8000/community/${this.movie.id}/review/`,
+        data: this.reviewCreating,
+        headers: this.setToken,
+      })
+      .then(res => {
+        console.log(res)
+        this.$router.push({ name: 'Review', params: {review: res.data, pk: res.data.id}})
+      })
+      .catch(err => {
+        console.log("제목또는 내용이 비어있습니다.",err.response.data)
+      })
+    },
   },
   created() {
     this.movie = this.movies.find((movie) => {
@@ -182,6 +215,9 @@ export default {
       'genres',
       'ratings',
       'reviews',
+    ]),
+    ...mapGetters([
+      'setToken',
     ])
   },
   filters: {
