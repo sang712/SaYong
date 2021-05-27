@@ -196,7 +196,16 @@ export default new Vuex.Store({
     // https://vuex.vuejs.org/guide/getters.html#method-style-access
     getUserObjectById: (state) => (id) => {
       return state.users.find(user => user.id === id)
-    }
+    },
+    getMovieObjectById: (state) => (id) => {
+      return state.movies.find(movie => movie.id === id)
+    },
+    getRatingObjectById: (state) => (id) => {
+      return state.ratings.find(rating => rating.id === id)
+    },
+    displayDateTime: () => (datetime) => {
+      return datetime.substring(0,10) +' '+ datetime.substring(11,16)
+    },
   },
   modules: {
 

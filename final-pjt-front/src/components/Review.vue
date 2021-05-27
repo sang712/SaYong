@@ -2,7 +2,7 @@
   <div>
     <div class="card m-3">
       <div class="card-header">
-        <router-link :to="{ name: 'Review', params: { pk: review.id } }">
+        <router-link :to="{ name: 'Review', params: { pk: review.id, review: review } }">
           <h3>{{ review.id }} | 
           {{ review.title }}</h3>
         </router-link>
@@ -70,6 +70,29 @@
               <span class="">수정: {{ review.updated_at| date }}</span>
             </div>
             <h3>Comments</h3>
+            <div class="table" v-if="!review.comment_set.length">댓글이 없습니다</div>
+            <table class="table" v-else>
+              <thead>
+                <tr>
+                  <th scope="col">id</th>
+                  <th scope="col">review</th>
+                  <th scope="col">user</th>
+                  <th scope="col">content</th>
+                  <th scope="col">created_at</th>
+                  <th scope="col">updated_at</th>
+                </tr>
+              </thead>
+              <tbody v-for="(comment, idx) in review.comment_set" :key="idx">
+                <tr>
+                  <th scope="row">{{ comment.id }}</th>
+                  <td>{{ comment.review }}</td>
+                  <td>{{ $store.getters.getUserObjectById(comment.user).username }}</td>
+                  <td>{{ comment.content }}</td>
+                  <td>{{ comment.created_at }}</td>
+                  <td>{{ comment.updated_at }}</td>
+                </tr>
+              </tbody>
+            </table>
             <div v-for="(comment, idx) in review.comment_set" :key="idx" class="border">
               <router-link :to="{ name: 'AccountPK', params: { pk: comment.user }}">
                 {{ $store.getters.getUserObjectById(comment.user).username }}
