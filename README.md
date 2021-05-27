@@ -11,6 +11,212 @@
 모바일 대응을 위한 반응형 웹 Django REST API 서버 및 프론트엔드 프레임워크 Vue.js) 분리 등의 상세 구현 방식은 자유롭게 구성하되 프로젝트 README.md 상단에 프로젝트 구조에 대한 설명을 반드시 명시해야 합니다
 ```
 
+
+
+```
+$ cmd //c tree //a //f
+폴더 PATH의 목록입니다.
+볼륨 일련 번호는 0EE8-1F09입니다.
+C:.
+|   .gitignore
+|   README.md
+|   README.pdf
+|
++---final-pjt-back
+|   |   db.sqlite3
+|   |   manage.py
+|   |   requirements.txt
+|   |   
+|   +---accounts
+|   |   |   admin.py
+|   |   |   apps.py
+|   |   |   forms.py
+|   |   |   models.py
+|   |   |   serializers.py
+|   |   |   tests.py
+|   |   |   urls.py
+|   |   |   views.py
+|   |   |   __init__.py
+|   |   |
+|   |   +---migrations
+|   |   |   |   0001_initial.py
+|   |   |   |   0002_initial.py
+|   |   |   |   __init__.py
+|   |   |   |
+|   |   |   \---__pycache__
+|   |   |           0001_initial.cpython-38.pyc
+|   |   |           0002_auto_20210520_1159.cpython-38.pyc
+|   |   |           0002_auto_20210520_1647.cpython-38.pyc
+|   |   |           0002_auto_20210524_1645.cpython-38.pyc
+|   |   |           0002_initial.cpython-38.pyc
+|   |   |           0003_auto_20210520_1426.cpython-38.pyc
+|   |   |           0003_history_rating.cpython-38.pyc
+|   |   |           0004_auto_20210521_0927.cpython-38.pyc
+|   |   |           0004_history_movie.cpython-38.pyc
+|   |   |           __init__.cpython-38.pyc
+|   |   |
+|   |   +---templates
+|   |   |   \---accounts
+|   |   |           login.html
+|   |   |           profile.html
+|   |   |           signup.html
+|   |   |           _follow.html
+|   |   |
+|   |   \---__pycache__
+|   |           admin.cpython-38.pyc
+|   |           apps.cpython-38.pyc
+|   |           forms.cpython-38.pyc
+|   |           models.cpython-38.pyc
+|   |           serializers.cpython-38.pyc
+|   |           urls.cpython-38.pyc
+|   |           views.cpython-38.pyc
+|   |           __init__.cpython-38.pyc
+|   |
+|   +---community
+|   |   |   admin.py
+|   |   |   apps.py
+|   |   |   forms.py
+|   |   |   models.py
+|   |   |   serializers.py
+|   |   |   tests.py
+|   |   |   urls.py
+|   |   |   views.py
+|   |   |   __init__.py
+|   |   |
+|   |   +---migrations
+|   |   |   |   0001_initial.py
+|   |   |   |   __init__.py
+|   |   |   |
+|   |   |   \---__pycache__
+|   |   |           0001_initial.cpython-38.pyc
+|   |   |           0002_auto_20210520_1159.cpython-38.pyc
+|   |   |           0002_auto_20210521_0927.cpython-38.pyc
+|   |   |           0003_auto_20210520_1426.cpython-38.pyc
+|   |   |           __init__.cpython-38.pyc
+|   |   |
+|   |   +---templates
+|   |   |   \---community
+|   |   |           create.html
+|   |   |           detail.html
+|   |   |           index.html
+|   |   |
+|   |   \---__pycache__
+|   |           admin.cpython-38.pyc
+|   |           apps.cpython-38.pyc
+|   |           forms.cpython-38.pyc
+|   |           models.cpython-38.pyc
+|   |           serializers.cpython-38.pyc
+|   |           urls.cpython-38.pyc
+|   |           views.cpython-38.pyc
+|   |           __init__.cpython-38.pyc
+|   |
+|   +---movies
+|   |   |   admin.py
+|   |   |   apps.py
+|   |   |   forms.py
+|   |   |   models.py
+|   |   |   serializers.py
+|   |   |   tests.py
+|   |   |   urls.py
+|   |   |   views.py
+|   |   |   __init__.py
+|   |   |
+|   |   +---fixtures
+|   |   |       movies.json
+|   |   |       
+|   |   +---migrations
+|   |   |   |   0001_initial.py
+|   |   |   |   __init__.py
+|   |   |   |
+|   |   |   \---__pycache__
+|   |   |           0001_initial.cpython-38.pyc
+|   |   |           0002_auto_20210520_1159.cpython-38.pyc
+|   |   |           0002_auto_20210521_0927.cpython-38.pyc
+|   |   |           0003_auto_20210520_1426.cpython-38.pyc
+|   |   |           __init__.cpython-38.pyc
+|   |   |
+|   |   +---templates
+|   |   |   \---movies
+|   |   |           detail.html
+|   |   |           index.html
+|   |   |           recommended.html
+|   |   |
+|   |   \---__pycache__
+|   |           admin.cpython-38.pyc
+|   |           apps.cpython-38.pyc
+|   |           models.cpython-38.pyc
+|   |           serializers.cpython-38.pyc
+|   |           urls.cpython-38.pyc
+|   |           views.cpython-38.pyc
+|   |           __init__.cpython-38.pyc
+|   |
+|   +---pjt09
+|   |   |   asgi.py
+|   |   |   settings.py
+|   |   |   urls.py
+|   |   |   wsgi.py
+|   |   |   __init__.py
+|   |   |
+|   |   \---__pycache__
+|   |           settings.cpython-38.pyc
+|   |           urls.cpython-38.pyc
+|   |           wsgi.cpython-38.pyc
+|   |           __init__.cpython-38.pyc
+|   |
+|   \---templates
+|           base.html
+|
++---final-pjt-front
+|   |   .gitignore
+|   |   babel.config.js
+|   |   package-lock.json
+|   |   package.json
+|   |   README.md
+|   |
+|   +---public
+|   |       favicon.ico
+|   |       index.html
+|   |
+|   \---src
+|       |   App.vue
+|       |   main.js
+|       |
+|       +---assets
+|       |       logo.png
+|       |
+|       +---components
+|       |       AccountCard.vue
+|       |       MovieCard.vue
+|       |       MovieCollection.vue
+|       |       MovieDetail.vue
+|       |       Review.vue
+|       |       ShortAccountCard.vue
+|       |       StarRating.vue
+|       |
+|       +---router
+|       |       index.js
+|       |
+|       +---store
+|       |       index.js
+|       |
+|       \---views
+|               Account.vue
+|               AccountPK.vue
+|               Home.vue
+|               Login.vue
+|               Recommend.vue
+|               ReviewList.vue
+|               Signup.vue
+|
+\---README.assets
+        final-pjt.png
+        image-20210527163015816.png
+        image-20210527163046788.png
+        image-20210527163558675.png
+```
+
+
+
 ### Vue.js
 
 1. `Vue 2.6.12` (단, `npm install -g @vue/cli` 등 Vue CLI으로 설치), `Vue Router 3.5.1, Vuex 3.6.2, Lodash 4.17.21, Axios 0.21.1` 등
