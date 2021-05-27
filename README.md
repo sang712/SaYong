@@ -4,7 +4,23 @@
 
 # 
 
+## 프로젝트 구조
+
+```
 모바일 대응을 위한 반응형 웹 Django REST API 서버 및 프론트엔드 프레임워크 Vue.js) 분리 등의 상세 구현 방식은 자유롭게 구성하되 프로젝트 README.md 상단에 프로젝트 구조에 대한 설명을 반드시 명시해야 합니다
+```
+
+### Vue.js
+
+1. `Vue 2.6.12` (단, `npm install -g @vue/cli` 등 Vue CLI으로 설치), `Vue Router 3.5.1, Vuex 3.6.2, Lodash 4.17.21, Axios 0.21.1` 등
+2. 
+
+### Django REST API
+
+1. `Django 3.X` 버젼, `'rest_framework',  'corsheaders',  'django_seed'`패키지
+2. 하단 [DRF URL 맵](https://lab.ssafy.com/tyl1996/final-pjt/blob/master/README.md#drf-url)에 따라 API 요청을 보낼 수 있음.
+
+
 
 ## i. 팀원 정보 및 업무 분담 내역
 
@@ -72,10 +88,11 @@ pjt09에서 제공되었던 영화 정보(movies.json)을 기반으로 하였으
 ## vi. 기타(느낀점)
 
 1. 한상길:
-2. 이태용: 명세서를 구체적으로 먼저 작성하고 목업을 만들고 사고실험을 모두 한 후에 하는 것이 좋을 것 같다. 특히 Vuex를 제대로 활용하지 못한 것 같아 아쉽다. 또 DRF API를 나름 잘 만들었다고 생각했지만 추후 Front End를 구현하는 과정에서 오류나 버그, 그리고 기능상의 변경점들이 많이 필요했던 점이 아쉽다.
+2. 이태용: 명세서를 구체적으로 먼저 작성하고 목업을 만들고 사고실험을 모두 한 후에 하는 것이 좋을 것 같다. 특히 Vuex를 제대로 활용하지 못한 것 같아 아쉽다. 또 DRF API를 나름 잘 만들었다고 생각했지만 추후 Front End를 구현하는 과정에서 오류나 버그, 그리고 기능상의 변경점들이 많이 필요했던 점이 아쉽다. 반대로 아직 많이 부족하다는 것을 깨닫고 2학기를 준비하는 마음가짐을 새로 할 수 있을 것 같다. 기술적인 지식에서 어떻게 설계를 해야 할지 고민을 많이 하게 되었다.
 
 
 
+```
 브레인스토밍
 05.20 아이디어 회의
 
@@ -83,6 +100,7 @@ pjt09에서 제공되었던 영화 정보(movies.json)을 기반으로 하였으
 2. 영화를 눌렀을 때 리뷰로 갈지, 아니면 전체 리뷰를 보여줄지. 네이버 영화의 경우에는 기본적으로 영화를 눌러서 리뷰를 확인하지만, 메인 페이지에 최신 리뷰를 보여주는 칸이 있다.
 3. 다크모드 적용. vuex에서 다크모드 관련 변수를 설정하고 이에 따라 홈페이지 다크모드를 껐다 켰다하는 기능. v-if/else로 적용이 가능할 것 같다. Bootstrap에 관련된 기능이 있는지 확인이 필요하다.
 4. 아마 힘들겠지만 웹 접근성 표준 인증을 받을 정도를 ? 아니면 색약, 색맹 등에게 맞춘 색상 조절 기능. 
+```
 
 초기에는 목업 등을 작성하고, 데이터 흐름도를 그린 이후에 코드화하였지만 추후 일정 부족 등으로 생략하고 바로 코드를 작성했습니다.
 
@@ -93,47 +111,6 @@ pjt09에서 제공되었던 영화 정보(movies.json)을 기반으로 하였으
 ![image-20210527163046788](README.assets/image-20210527163046788.png)
 
 ![image-20210527163558675](README.assets/image-20210527163558675.png)
-
-## 모델 구조
-
-* accounts_user
-
-| id           | field            | 설명                   |
-| ------------ | ---------------- | ---------------------- |
-| username     | char(150)        | 사용자 이름            |
-| password     | char(150)        |                        |
-| email        | char(150)        |                        |
-| is_superuser | bool             |                        |
-| is_staff     | bool             |                        |
-| is_active    | bool             |                        |
-| last_name    | char(150)        |                        |
-| first_name   | char(150)        |                        |
-| date_joined  | datetime         |                        |
-| las_login    | datetime         |                        |
-|              |                  |                        |
-| followers    | manytomany(user) | 팔로우 하는 사람       |
-| review_set   |                  | 사용자가 남긴 리뷰     |
-| comment_set  |                  | 사용자가 남긴 코멘트   |
-| like_reviews |                  | 사용자가 좋아요한 리뷰 |
-|              |                  |                        |
-
-
-
-* community_review
-
-| id          | field      | 설명 |
-| ----------- | ---------- | ---- |
-| title       | char(100)  |      |
-| movie_title | char(150)  |      |
-| rank        | integer    |      |
-| content     | text       |      |
-| created_at  | datetime   |      |
-| uploaded_at | datetime   |      |
-|             |            |      |
-| user        | foreignkey |      |
-| like_users  | foreignkey |      |
-
-
 
 
 
@@ -184,25 +161,30 @@ pjt09에서 제공되었던 영화 정보(movies.json)을 기반으로 하였으
 | movies/                                   | movie_index    | GET    | 모든 영화 보기                               |
 | movies/<movie_pk>/                        | movie          | GET    | 특정 영화 보기                               |
 | admin/                                    |                |        | 관리자 영화 추가 수정 삭제                   |
+| movies/genre/                             | genre          | GET    | 모든 장르 보기                               |
 | movies/recommended/[**kwargs: q=’’&....]/ | recommend      | GET    | 검색어로 영화 추천 받기                      |
 | movies/favorite/                          | favorite_index | GET    | 모든 영화 찜(한 목록) 보기                   |
 |                                           |                |        | 특정 유저 찜한 영화 목록 보기(유저에서 지원) |
-|                                           |                |        | 특정 영화 찜한 유저 목록 보기(영화에서 지원) |
+| movies/<movie_pk>/favorite/               | favorite       | GET    | 특정 영화 찜한 유저 목록 보기                |
 | movies/<movie_pk>/favorite/               | favorite       | POST   | 영화 ‘찜’/’찜 취소’ 토글                     |
 
 
 
 ### Accounts
 
-| URL                               | 호출 함수 | 메서드     | 역할                     |
-| --------------------------------- | --------- | ---------- | ------------------------ |
-| accounts/                         | signup    | GET & POST | 계정 생성화면 & 생성하기 |
-| accounts/index/                   | index     | GET        | 모든 계정 보기           |
-| accounts/<username>/              | profile   | POST       | 계정 정보 보기           |
-| accounts/<username>/              | profile   | PUT        | 계정 정보 수정           |
-| accounts/<username>/              | profile   | DELETE     | 계정 삭제                |
-| accounts/follow/<account_pk>/     |           | GET        | 팔로잉, 팔로워 목록보기  |
-| accounts/follow/<account_pk>/     |           | POST       | ‘팔로우’/’언팔로우’ 토글 |
-| accounts/api-token-auth/          |           | POST       | JWT 토큰 받기            |
-| 버튼 동작(로그아웃, Vue에서 처리) |           | POST       | 로그아웃(JWT 토큰 삭제)  |
+| URL                               | 호출 함수     | 메서드 | 역할                          |
+| --------------------------------- | ------------- | ------ | ----------------------------- |
+| accounts/signup/                  | signup        | POST   | 계정 생성하기                 |
+| accounts/index/                   | index         | GET    | 모든 계정 보기                |
+| accounts/<username>/              | profile       | GET    | 계정 정보 보기                |
+| accounts/<username>/              | profile       | PUT    | 계정 정보 수정                |
+| accounts/<username>/              | profile       | DELETE | 계정 삭제                     |
+| accounts/follow/<account_pk>/     | follow        | GET    | 특정 유저 팔로워 목록보기     |
+| accounts/follow/<account_pk>/     | follow        | POST   | ‘팔로우’/’언팔로우’ 토글      |
+| accounts/api-token-auth/          |               | POST   | JWT 토큰 받기                 |
+| 버튼 동작(로그아웃, Vue에서 처리) |               | POST   | 로그아웃(JWT 토큰 삭제)       |
+| accounts/history/                 | history       | GET    | 모든 활동이력 가져오기        |
+| accounts/<user_pk>/history/       | user_history  | GET    | 특정 유저 활동이력 가져오기   |
+| accounts/<user_pk>/favorite/      | user_favorite | GET    | 특정 유저 찜한 영화 목록 보기 |
+| accounts/<user_pk>/following/     | following     | GET    | 특정 유저 팔로잉 목록보기     |
 
