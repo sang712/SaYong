@@ -3,7 +3,29 @@
 
 
 
-# 
+## 싸피 5기 1학기 파이썬트랙 최종 프로젝트로 제출한 내용은 [de4a1ece](https://lab.ssafy.com/tyl1996/final-pjt/tree/de4a1ece06e0144b19eeabab429c607a6cdefbd6)커밋에서 확인할 수 있습니다.
+
+### 요구사항
+
+![image-20210610230149385](README.assets/image-20210610230149385.png)
+
+![image-20210610230142353](README.assets/image-20210610230142353.png)
+
+![image-20210610230130812](README.assets/image-20210610230130812.png)
+
+- [ ] axios요청은 최소화하고 Vuex Getters 혹은 Actions로 대체하기(AccountsCard.vue{followers,followings},) -> 주의점! getters와 달리 부르는게 store.dispatch('action명'[, 인자]) 형태다.
+- [ ] Vue.js 모든 외부 API 연결을 Vuex Actions로 설정
+- [ ] 모든 데이터셋을 Vuex State에 보관, computed-mapState()로 변경사항 발생시 즉시 반영
+- [ ] 모든 필터(대부분 재사용됨)는 Vuex Getters로 설정
+- [ ] 대부분 메소드(대부분 재사용됨)는 Vuex Getters로 설정
+- [ ] TypeError: Cannot read property '{변수명}' of undefined 오류 해결(해당 값 없으면 연산하지 않기?)
+- [ ] 로그인 실패시 피드백
+
+### 변경사항
+
+- 신기? 당연?하게도 컴포넌트 method(axios 요청 1회, state 변경 안 됨)가 Vuex Actions(axios 요청 2회, state 변경됨)보다 빠르다. 특히 dispatch('getUserList')이 엄청 오래 걸리는 것 같다. 
+
+
 
 ## 프로젝트 구조
 

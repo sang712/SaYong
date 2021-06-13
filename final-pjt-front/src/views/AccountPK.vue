@@ -20,20 +20,12 @@ export default {
   },
   data: function () { return {
     user: {},
-    // users: [],
   }},
   created: function () {
-    this.user = this.users.filter(user => {
-      return user.id==this.pk
-    })[0]
-    // console.log(this.user)
-    
-    // axios.get(`http://127.0.0.1:8000/accounts/${this.pk}/`)
-    //   .then(res => {
-    //     this.user = res.data
-    //     console.log(this.user)
-    //   })
-    //   .catch(err => {console.log(err)})
+    // this.user = this.users.filter(user => {
+    //   return user.id==this.pk
+    // })[0]
+    this.user = this.$store.getters.getUserObjectById(this.pk)
   },
   computed: {
     ...mapState([

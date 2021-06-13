@@ -40,7 +40,7 @@
                 <a href="http://127.0.0.1:8000/admin">관리자</a>
               </li>
               <li v-show="this.$store.state.isLogin" class="nav-item p-2"> 
-                <p class="m-0" style="color: #f7f7f7;">{{ this.$store.state.username| capitalize }}님 환영합니다.</p>
+                <p class="m-0" style="color: #f7f7f7;">{{ this.$store.getters.capitalize(this.$store.state.username) }}님 환영합니다.</p>
               </li>
             </ul>
             <form class="d-flex">
@@ -153,12 +153,13 @@ export default {
     }
   },
   filters: {
-    capitalize: function (value) {
-    if (!value) return ''
-    value = value.toString()
-    return value.charAt(0).toUpperCase() + value.slice(1)
-    },
-  }
+    // 아래 filter는 vuex의 getter로 대체되었다.
+    // capitalize: function (value) {
+    //   if (!value) return ''
+    //   value = value.toString()
+    //   return value.charAt(0).toUpperCase() + value.slice(1)
+    // },
+  },
 }
 </script>
 

@@ -187,7 +187,7 @@ export default {
         headers: this.setToken,
       })
       .then(res => {
-        console.log(res)
+        // console.log(res)
         this.$router.push({ name: 'Review', params: {review: res.data, pk: res.data.id}})
       })
       .catch(err => {

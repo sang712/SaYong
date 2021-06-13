@@ -1,11 +1,13 @@
 <template>
   <div>
     <router-link class="text-decoration-none" :to="{ name: 'AccountPK', params: { pk: user.id }}">
-      <h5 class="card-title fw-bold text-primary" id="username">{{ user.username | capitalize }}</h5>
+      <h5 class="card-title fw-bold text-primary" id="username">{{ $store.getters.capitalize(user.username) }}</h5>
     </router-link>
-    <!-- <h6 class="card-subtitle mb-2 text-muted">이메일주소? 이름?</h6> -->
-    <button class="btn btn-primary w-100" @click="follow" v-show="isCurrentUserFollowsUser">팔로우 취소</button>
-    <button class="btn btn-primary w-100" @click="follow" v-show="!isCurrentUserFollowsUser">팔로우</button>
+    <!-- 팔로워 팔로잉 정보를 어떻게 받아오느냐에 따라 주석을 선택적으로 풀면 된다. -->
+    <!-- <button class="btn btn-primary w-100" @click="follow" v-show="isCurrentUserFollowsUser">팔로우 취소</button> -->
+    <button class="btn btn-primary w-100" @click="$store.dispatch('follow',user.id)" v-show="isCurrentUserFollowsUser">팔로우 취소</button>
+    <!-- <button class="btn btn-primary w-100" @click="follow" v-show="!isCurrentUserFollowsUser">팔로우</button> -->
+    <button class="btn btn-primary w-100" @click="$store.dispatch('follow',user.id)" v-show="!isCurrentUserFollowsUser">팔로우</button>
     <div class="my-1 card-group d-flex justify-content-center">
       <div class="card w-100">
         <div class="card-body" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
@@ -44,7 +46,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
   name: 'ShortAccountCard',
@@ -56,6 +58,7 @@ export default {
     // followings: Array,
   }},
   computed: {
+    // 현재 접속자가 상대방 유저를 팔로우하는가? (T/F) // 여기에서는 상대방의 팔로워를 탐색하지만, 현재 접속자의 팔로잉을 탐색할수도 있다.
     isCurrentUserFollowsUser() {
       // console.log(this.user.followers, this.$store.state.user.id)
       if (this.user.followers.length) {
@@ -66,6 +69,7 @@ export default {
       }
     },
   },
+  // 팔로워 팔로잉 정보를 채워준다. data 주석처리와 같이 간다.
   // created: function (){
   //   axios.get(`http://127.0.0.1:8000/accounts/follow/${this.user.id}/`)
   //     .then(res => {
@@ -81,24 +85,28 @@ export default {
   //     .catch(err => {console.log(err)})
   // },
   methods: {
-    follow: function () {
-      axios({
-        method: 'POST',
-        url: `http://127.0.0.1:8000/accounts/follow/${this.user.id}/`,
-        headers: this.$store.getters.setToken,
-      })
-        .then(res=>{
-          this.user.followers = res.data
-        })
-        .catch(err=>{console.log(err)})
-    },
+    
+
+    // follow 메소드, Vuex Store actions로 이동되었다.
+    // follow: function () {
+    //   axios({
+    //     method: 'POST',
+    //     url: `http://127.0.0.1:8000/accounts/follow/${this.user.id}/`,
+    //     headers: this.$store.getters.setToken,
+    //   })
+    //     .then(res=>{
+    //       this.user.followers = res.data
+    //     })
+    //     .catch(err=>{console.log(err)})
+    // },
   },
   filters: {
-  capitalize: function (value) {
-    if (!value) return ''
-    value = value.toString()
-    return value.charAt(0).toUpperCase() + value.slice(1)
-    }
+    // capitalize는 vuex store getters로 대체되었다.
+    // capitalize: function (value) {
+    //   if (!value) return ''
+    //   value = value.toString()
+    //   return value.charAt(0).toUpperCase() + value.slice(1)
+    // }
   },
 }
 </script>

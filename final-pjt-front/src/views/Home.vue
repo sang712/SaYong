@@ -71,8 +71,8 @@ export default {
 }
 </script>
 <style scoped>
-.carousel-item{
-}
+/* .carousel-item{
+} */
 .carousel-item img{
   object-fit: cover;
   max-width: 1280px;

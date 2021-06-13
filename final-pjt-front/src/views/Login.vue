@@ -53,6 +53,7 @@ export default {
         this.$store.dispatch('getUser')
       })
       .then(() => {
+        // 로그인이 되면 메인(홈)페이지로 이동한다
         this.$router.push({name: 'Home'})
       })
       .catch(err => {

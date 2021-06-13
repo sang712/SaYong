@@ -222,6 +222,7 @@
               <table class="table" v-else>
                 Followers: {{ followers.length }}
                 <ShortAccountCard v-for="(follower, idx) in followers" :key="idx" :user="follower"/>
+                <!-- <ShortAccountCard v-for="(follower, idx) in user.followers" :key="idx" :user="$store.getters.getUserObjectById(follower.id)"/> -->
               </table>
             </div>
           </div>
@@ -236,8 +237,9 @@
             <div class="accordion-body">
               <div class="table" v-if="!user.followings.length">팔로잉이 없습니다</div>
               <table class="table" v-else>
-                Followers: {{ followings.length }}
+                Followings: {{ followings.length }}
                 <ShortAccountCard v-for="(following, idx) in followings" :key="idx" :user="following"/>
+                <!-- <ShortAccountCard v-for="(following, idx) in user.followings" :key="idx" :user="$store.getters.getUserObjectById(following.id)"/> -->
               </table>
             </div>
           </div>
@@ -254,7 +256,7 @@
 
 <script>
 import ShortAccountCard from '@/components/ShortAccountCard.vue'
-import axios from 'axios'
+// import axios from 'axios'
 import {mapState} from 'vuex'
 
 export default {
@@ -273,33 +275,45 @@ export default {
   methods: {
 
   },
-  computed: mapState([
-    'movies', //'users'
-  ]),
+  computed: {
+    ...mapState([
+      'movies', 
+      'users',
+    ]),
+  },
   filters: {
   },
   created: function (){
     // console.log(this.user)
-    axios({
-      method: 'get',
-      url: `http://127.0.0.1:8000/accounts/follow/${this.user.id}/`,
-      headers: this.$store.getters.setToken,
-    })
-      .then(res => {
-        // console.log(res)
-        this.followers = res.data
-      })
-      .catch(err => {console.log(err)})
-    axios({
-      method: 'get',
-      url: `http://127.0.0.1:8000/accounts/${this.user.id}/following/`,
-      headers: this.$store.getters.setToken,
-    })
-      .then(res => {
-        // console.log(res)
-        this.followings = res.data
-      })
-      .catch(err => {console.log(err)})
+
+    this.followers = this.user.followers.map(follower => this.$store.getters.getUserObjectById(follower.id))
+    // console.log(this.followers)
+    // 아래 axios 호출, 위 Javascript로 대체되었다.
+    // 다른 방법으로는 Template부분에서 전달하는 :user="$store.getters.getUserObjectById(follower.id)" 로 가능할 것 같다. 해당 코드는 주석처리해놨다.
+
+    // axios({
+    //   method: 'get',
+    //   url: `http://127.0.0.1:8000/accounts/follow/${this.user.id}/`,
+    //   headers: this.$store.getters.setToken,
+    // })
+    //   .then(res => {
+    //     console.log(res)
+    //     this.followers = res.data
+    //   })
+    //   .catch(err => {console.log(err)})
+
+    this.followings = this.user.followings.map(following => this.$store.getters.getUserObjectById(following.id))
+
+    // axios({
+    //   method: 'get',
+    //   url: `http://127.0.0.1:8000/accounts/${this.user.id}/following/`,
+    //   headers: this.$store.getters.setToken,
+    // })
+    //   .then(res => {
+    //     // console.log(res)
+    //     this.followings = res.data
+    //   })
+    //   .catch(err => {console.log(err)})
   },
 }
 </script>

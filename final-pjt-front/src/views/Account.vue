@@ -13,12 +13,6 @@ export default {
   components: {
     AccountCard,
   },
-  data: function () {return {
-    // users: [],
-  }},
-  // props: {
-  //   users: [],
-  // },
   computed: {
     ...mapState([
       'users'
