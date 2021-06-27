@@ -5,6 +5,8 @@
 
 ## 싸피 5기 1학기 파이썬트랙 최종 프로젝트로 제출한 내용은 [de4a1ece](https://lab.ssafy.com/tyl1996/final-pjt/tree/de4a1ece06e0144b19eeabab429c607a6cdefbd6)커밋에서 확인할 수 있습니다.
 
+## 싸피 제출 이후 변경사항
+
 ### 요구사항
 
 ![image-20210610230149385](README.assets/image-20210610230149385.png)
@@ -16,12 +18,22 @@
 - [ ] axios요청은 최소화하고 Vuex Getters 혹은 Actions로 대체하기(AccountsCard.vue{followers,followings},) -> 주의점! getters와 달리 부르는게 store.dispatch('action명'[, 인자]) 형태다.
 - [ ] Vue.js 모든 외부 API 연결을 Vuex Actions로 설정
 - [ ] 모든 데이터셋을 Vuex State에 보관, computed-mapState()로 변경사항 발생시 즉시 반영
-- [ ] 모든 필터(대부분 재사용됨)는 Vuex Getters로 설정
+- [ ] 모든 필터(대부분 재사용됨)는 Vuex Getters로 설정 (특히 components/Review.vue 가 심각함)
 - [ ] 대부분 메소드(대부분 재사용됨)는 Vuex Getters로 설정
 - [ ] TypeError: Cannot read property '{변수명}' of undefined 오류 해결(해당 값 없으면 연산하지 않기?)
+- [ ] 대부분 페이지에서 새로고침(F5)시 (데이터 미수신->Not Found->) 미출력 문제 해결. 이와 관련된 뒤로가기 등 문제가 다양함.
 - [ ] 로그인 실패시 피드백
+- [ ] 미로그인시 추천페이지, 리뷰페이지, 팔로우, 리뷰작성, 접근 제한 및 로그인 페이지로 이동(각 영화별 별표(찜하기)에는 기적용됨)
+- [ ] 메인페이지 대문 사진 크기에 따라 높낮이가 달라지는 문제점 해결
+- [ ] 각 영화 상세페이지에서 '찜한 사람 목록'의 간이프로필(ShortAccountCard) 각 항목을 클릭시 어코디언(Accordian) 실행 방지
+- [ ] 프로필페이지 '찜한 영화'도 추가한 시간에 따라 정렬하기(기적용 여부 확인 필요)
+- [ ] 모두의프로필 각 프로필 초기에는 어코디언(Accordian) 접힘 상태로 출력
+- [ ] 리뷰별 댓글 작성 기능을 표(Table)에서 꺼내야함. 기존 댓글이 없는 경우 표가 출력되지 않아 표 내부에 있는 댓글 작성 버튼을 접근할 수 없음
+- [ ] 리뷰별 좋아요 한 사용자 목록 보여주는 기능 추가
+- [ ] 리뷰페이지에 모든 리뷰가 표시되지 않는 오류 해결
+- [ ] 페이지에 따라 Router-link를 클릭했을 때 스크롤바 위치가 최상단으로 위치하지 않는 오류 해결
 
-### 변경사항
+### 유의사항
 
 - 신기? 당연?하게도 컴포넌트 method(axios 요청 1회, state 변경 안 됨)가 Vuex Actions(axios 요청 2회, state 변경됨)보다 빠르다. 특히 dispatch('getUserList')이 엄청 오래 걸리는 것 같다. 
 
