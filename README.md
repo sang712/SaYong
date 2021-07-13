@@ -36,6 +36,7 @@
 ### 유의사항
 
 - 신기? 당연?하게도 컴포넌트 method(axios 요청 1회, state 변경 안 됨)가 Vuex Actions(axios 요청 2회, state 변경됨)보다 빠르다. 특히 dispatch('getUserList')이 엄청 오래 걸리는 것 같다. 
+- Backend: User의 Follower, Following 재귀 M:M 관계 때문에 depth level을 설정하였다. 다만 이러한 depth level의 적용은 추가적으로 문제를 만들 수 있으므로, 지양해야한다. 가급적 없애는 방향으로 재설계하면 좋을 것이다.
 
 
 
